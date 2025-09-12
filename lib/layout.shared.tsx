@@ -1,4 +1,4 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**
  * Shared layout configurations
@@ -27,14 +27,14 @@ export function baseOptions(): BaseLayoutProps {
     // see https://fumadocs.dev/docs/ui/navigation/links
     links: [
       {
-        text: 'Console',
-        url: 'https://console.aquanode.io',
-        active: 'none',
+        text: "Console",
+        url: "https://console.aquanode.io",
+        active: "none",
       },
       {
-        text: 'Book a Call',
-        url: 'https://calendly.com/aquanode',
-        active: 'none',
+        text: "Book a Call",
+        url: "https://cal.com/anshs3/15min",
+        active: "none",
       },
     ],
   };
