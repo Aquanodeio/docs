@@ -1,0 +1,132 @@
+---
+title: "Snapshotter"
+description: "Automated backup and restore system for your VM deployments. Schedule regular backups and restore data between deployments."
+---
+
+## Prerequisites
+
+Before using snapshotter, you need to configure your storage credentials:
+
+### Step 1: Add storage credentials
+
+1. Go to [Settings](https://console.aquanode.io/settings) in the console
+2. Navigate to the **Integrations** section
+3. Click **Add Integration** and select your storage provider
+4. Enter your storage credentials (AWS S3, Google Cloud Storage, etc.)
+5. Save the configuration
+
+
+
+## Enable snapshotter on deployment
+
+When creating a new VM deployment:
+
+### Step 2: Enable during deployment
+
+1. Go to [New Deployment](https://console.aquanode.io/marketplace)
+2. Select your VM template and GPU configuration
+3. In the deployment configuration:
+   - Toggle **Enable Snapshotter** to ON
+   - Select your **Storage Configuration** from the dropdown
+4. Complete your deployment setup and click **Deploy**
+
+Your VM will launch with snapshotter enabled and ready to configure.
+
+## Configure backup directories
+
+Once your deployment is running:
+
+### Step 3: Set up automated backups
+
+1. Navigate to your deployment details page
+2. Go to the **Snapshotter** tab
+3. In the **Create Backups** section:
+   - **Directory**: Enter the absolute path you want to backup (e.g., `/home/user/models`)
+   - **Time Interval**: Set backup frequency in minutes (minimum 15 minutes)
+4. Click **Start Automated** to begin regular backups
+
+### Example backup configuration:
+```
+Directory: /workspace/models
+Time Interval: 60 minutes
+```
+
+This will backup your `/workspace/models` directory every hour.
+
+## Manage active backups
+
+Your active backup paths appear in the **Active Automated Backups** section:
+
+- **Take Snapshot**: Create an immediate manual backup
+- **Pause**: Temporarily stop automated backups
+- **Continue**: Resume paused automated backups  
+- **Restore**: Restore the latest backup to the current directory
+
+<div className="bg-orange-50 border border-orange-200 rounded-lg p-4 my-4">
+  <p className="text-orange-800 text-sm">
+    <strong>Warning:</strong> Restoring a backup will overwrite existing files in the target directory. 
+    Make sure to backup important changes before restoring.
+  </p>
+</div>
+
+## Restore to new deployment
+
+You can restore backups from one deployment to another:
+
+### Step 4: Restore between deployments
+
+1. In the **Restore Deployment** section
+2. Select the source deployment from the dropdown menu
+3. Click **Restore Deployment**
+
+This will restore all backup paths from the selected deployment to your current deployment.
+
+## View backup history
+
+The **Backup History** table shows all your snapshots:
+
+- **Path**: Directory that was backed up
+- **Date**: When the backup was created  
+- **Size**: Storage space used by the backup
+- **Type**: Manual (on-demand) or Automated (scheduled)
+
+## Backup types
+
+**Automated backups**
+- Run on your specified schedule
+- Continue until paused or deployment is terminated
+- Minimum interval: 15 minutes
+
+**Manual backups** 
+- Created instantly when you click "Take Snapshot"
+- Useful for backing up before major changes
+- Don't affect your automated schedule
+
+## Best practices
+
+**Choose backup intervals wisely**
+- More frequent backups use more storage
+- Consider your data change rate
+- 60-120 minutes works well for most workloads
+
+**Monitor storage costs**
+- Check backup sizes in the history table
+- Clean up old backups you no longer need
+- Storage costs depend on your configured provider
+
+**Test restores**
+- Verify backups work by testing restores
+- Practice restore process before you need it
+- Keep important data in multiple backup paths
+
+## Pricing
+
+Snapshotter itself is free. You only pay for:
+- Storage costs from your configured provider (S3, GCS, etc.)
+- Minimal network transfer during backup/restore operations
+
+Storage costs are typically $0.02-0.05 per GB per month depending on your provider.
+
+---
+
+*Snapshotter ensures your important data is always protected and easily recoverable across deployments.*

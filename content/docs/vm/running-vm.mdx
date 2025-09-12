@@ -1,8 +1,319 @@
 ---
-title: Running a VM
-description: Learn how to run virtual machines on Aquanode
+title: "Running a VM"
+description: "Deploy and manage GPU-powered virtual machines on Aquanode with complete control over your computing environment."
 ---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
 
 # Running a VM
 
-Step-by-step guide to running virtual machines on Aquanode.
+Virtual machines on Aquanode give you complete control over your GPU computing environment. Unlike managed services, VMs provide root access, custom configurations, and the flexibility to install any software you need.
+
+## When to use VMs
+
+**Choose VMs when you need:**
+- Full control over the operating system
+- Custom software installations and configurations  
+- Direct GPU access for specialized workloads
+- Long-running processes or services
+- Development environments with specific requirements
+
+**Consider alternatives when:**
+- You want managed AI model deployment → Use [Model Pipeline](/docs/models)
+- You need simple app hosting → Use [App Deployment](/docs/apps)
+- You want pre-built AI environments → Use [One-click Apps](/docs/apps/one-click-apps)
+
+## VM Types Available
+
+| VM Type | Best For | GPU Access | Root Access |
+|---------|----------|------------|-------------|
+| **Pre-Configured VM** | Development, training, custom setups | ✅ Direct | ✅ Full |
+| **Jupyter VM** | Data science, experimentation | ✅ Direct | ✅ Full |
+| **Docker VM** | Containerized workloads | ✅ Direct | ✅ Full |
+
+<Steps>
+<Step>
+## Choose your GPU and configuration
+
+Start by selecting the right hardware for your workload:
+
+1. Go to [Marketplace](https://console.aquanode.io/marketplace)
+2. Select **Virtual Machine** category
+3. Choose your GPU type:
+
+   **For AI Inference:**
+   - **RTX 4090** - Cost-effective, excellent for most models
+   - **RTX 3090** - Budget-friendly option for smaller models
+
+   **For Training & Heavy Workloads:**
+   - **A100 (40GB/80GB)** - Industry standard for ML training
+   - **H100** - Cutting-edge performance for large models
+   - **V100** - Proven performance for research workloads
+
+4. Configure your resources:
+   - **RAM**: 16GB - 768GB (depending on GPU)
+   - **vCPU**: 4 - 96 cores
+   - **Storage**: 50GB - 2TB NVMe SSD
+
+</Step>
+<Step>
+
+## Set up access credentials
+
+Configure secure access to your VM:
+
+1. **SSH Key Setup** (Recommended):
+   - Generate an SSH key pair if you don't have one:
+     ```bash
+     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+     ```
+   - Copy your public key:
+     ```bash
+     cat ~/.ssh/id_rsa.pub
+     ```
+   - Paste the public key in the **SSH Public Key** field
+
+2. **Alternative Access Methods**:
+   - **Password**: Set a secure password (less secure than SSH)
+   - **Key File**: Upload your existing SSH public key file
+
+<Callout type="info">
+**Security Best Practice**: Always use SSH keys instead of passwords for better security and convenience.
+</Callout>
+
+</Step>
+<Step>
+
+## Deploy your VM
+
+Launch your virtual machine:
+
+1. Review your configuration:
+   - GPU type and provider
+   - Resource allocation
+   - Access credentials
+   - Estimated cost per hour
+
+2. **Optional**: Set deployment settings:
+   - **Auto-shutdown**: Automatically stop VM after inactivity
+   - **Startup script**: Run commands on VM boot
+   - **Environment variables**: Set custom variables
+
+3. Click **Deploy VM**
+
+Your VM will be provisioned and ready in **1-3 minutes**.
+
+</Step>
+<Step>
+
+## Connect to your VM
+
+Once your VM is running, connect using your preferred method:
+
+### SSH Connection (Command Line)
+
+1. Find your VM's connection details in [Deployments](https://console.aquanode.io/deployments)
+2. Copy the SSH command provided:
+   ```bash
+   ssh -i ~/.ssh/id_rsa user@[VM-IP-ADDRESS]
+   ```
+3. Accept the host key when prompted
+
+### VS Code Remote SSH
+
+1. Install the **Remote-SSH** extension in VS Code
+2. Add your VM to SSH config:
+   ```
+   Host aquanode-vm
+       HostName [VM-IP-ADDRESS]
+       User user
+       IdentityFile ~/.ssh/id_rsa
+   ```
+3. Connect via Command Palette: **Remote-SSH: Connect to Host**
+
+### Jupyter Access (if enabled)
+
+1. Find the Jupyter URL in your deployment details
+2. Access via browser: `https://[VM-IP]:8888`
+3. Use the provided token or password
+
+</Step>
+<Step>
+
+## Verify GPU access
+
+Confirm your GPU is available and working:
+
+```bash
+# Check GPU status
+nvidia-smi
+
+# Verify CUDA installation
+nvcc --version
+
+# Test PyTorch GPU access (if installed)
+python -c "import torch; print(torch.cuda.is_available())"
+
+# Test TensorFlow GPU access (if installed)
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+```
+
+</Step>
+<Step>
+
+## Install your software
+
+Your VM comes with a base system. Install additional software as needed:
+
+### Python & AI Libraries
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Python packages
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install tensorflow transformers datasets accelerate
+
+# For Jupyter
+pip install jupyter jupyterlab
+jupyter lab --ip=0.0.0.0 --allow-root
+```
+
+### Docker Setup
+```bash
+# Docker is pre-installed on Docker VMs
+docker run --gpus all nvidia/cuda:11.8-base-ubuntu20.04 nvidia-smi
+```
+
+### Development Tools
+```bash
+# Git and development essentials
+sudo apt install git vim tmux htop -y
+
+# Node.js and npm
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+</Step>
+</Steps>
+
+## Managing your VM
+
+### Monitoring resources
+
+Track your VM performance through the console:
+
+1. **GPU Utilization**: Monitor GPU memory and compute usage
+2. **System Resources**: Track CPU, RAM, and storage usage  
+3. **Network Activity**: Monitor inbound/outbound traffic
+4. **Costs**: Real-time billing and usage estimates
+
+### VM lifecycle management
+
+**Start/Stop VMs**:
+- **Stop**: Preserves your data and configuration, stops billing for compute
+- **Start**: Resume a stopped VM with all data intact
+- **Restart**: Reboot your VM (useful for applying system updates)
+
+**Snapshots** (Coming Soon):
+- Save VM state for backup or cloning
+- Create templates from configured VMs
+
+### Storage management
+
+**Persistent Storage**:
+- Your VM's storage persists when stopped
+- Data survives VM restarts and stops
+- Automatically backed up daily
+
+**Additional Storage**:
+- Mount additional volumes for large datasets
+- Attach shared storage accessible across multiple VMs
+
+## Best practices
+
+### Security
+- Keep your SSH keys secure and rotate them regularly
+- Use strong passwords if using password authentication
+- Keep your VM updated with security patches
+- Use firewalls to restrict access to necessary ports only
+
+### Performance  
+- Choose the right GPU for your workload
+- Monitor resource usage to optimize costs
+- Use appropriate RAM allocation for your models
+- Consider using spot instances for cost savings
+
+### Cost optimization
+- Stop VMs when not actively using them
+- Use auto-shutdown to prevent forgotten VMs from running
+- Monitor usage patterns and right-size your resources
+- Consider scheduling VMs for batch workloads
+
+## Common use cases
+
+### Machine Learning Development
+```bash
+# Set up ML environment
+pip install jupyter pandas numpy matplotlib seaborn scikit-learn
+pip install torch torchvision transformers datasets
+
+# Start Jupyter for development
+jupyter lab --ip=0.0.0.0 --port=8888 --allow-root
+```
+
+### Model Training
+```bash
+# Clone your training repository
+git clone https://github.com/your-username/training-repo.git
+cd training-repo
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start training with GPU
+python train.py --gpu --batch-size 32
+```
+
+### API Server Deployment
+```bash
+# Install FastAPI
+pip install fastapi uvicorn
+
+# Run your API server
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+## Troubleshooting
+
+**VM won't start**:
+- Check your account credits and billing status
+- Verify resource limits aren't exceeded
+- Contact support if issues persist
+
+**Can't connect via SSH**:
+- Verify SSH key is correctly formatted
+- Check if VM is fully booted (wait 2-3 minutes)
+- Ensure your network allows SSH connections
+
+**GPU not detected**:
+- Run `nvidia-smi` to check driver status
+- Restart the VM if drivers aren't loaded
+- Contact support for persistent GPU issues
+
+**Poor performance**:
+- Monitor resource usage in console
+- Check if you need more RAM or vCPU
+- Verify GPU utilization matches your workload
+
+## Need help?
+
+- **Documentation**: Browse our [VM guides and tutorials](/docs/vm)
+- **Support**: Contact our team at [support@aquanode.io](mailto:support@aquanode.io)
+- **Community**: Join our Discord for community support
+
+---
+
+Ready to deploy your first VM? Head to the [Marketplace](https://console.aquanode.io/marketplace) and get started in minutes.

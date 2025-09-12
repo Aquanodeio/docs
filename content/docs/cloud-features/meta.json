@@ -1,6 +1,4 @@
 {
   "title": "Cloud Features",
-  "pages": [
-    "store-logs"
-  ]
+  "pages": ["store-logs", "snapshotter"]
 }
