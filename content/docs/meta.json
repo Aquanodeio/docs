@@ -1,0 +1,11 @@
+{
+  "title": "Aquanode Docs",
+  "pages": [
+    "getting-started",
+    "cloud-features", 
+    "vm",
+    "models",
+    "apps",
+    "support"
+  ]
+}

@@ -20,11 +20,22 @@ export function baseOptions(): BaseLayoutProps {
           >
             <circle cx={12} cy={12} r={12} fill="currentColor" />
           </svg>
-          My App
+          Aquanode Docs
         </>
       ),
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
+    links: [
+      {
+        text: 'Console',
+        url: 'https://console.aquanode.io',
+        active: 'none',
+      },
+      {
+        text: 'Book a Call',
+        url: 'https://calendly.com/aquanode',
+        active: 'none',
+      },
+    ],
   };
 }

@@ -1,0 +1,142 @@
+---
+title: "Quickstart Guide"
+description: "Get started with Aquanode in minutes. Deploy your first AI model on GPU cloud infrastructure."
+---
+
+# Get Started with Aquanode
+
+Deploy your first AI model on GPU cloud infrastructure in minutes.
+
+Follow this guide to create an account, launch your first GPU instance, and deploy a model.
+
+## Step 1: Create your account
+
+Start by creating your Aquanode account:
+
+1. [Sign up here](https://console.aquanode.ai/signup)
+2. Verify your email address
+3. Complete account setup
+
+## Step 2: Add payment method
+
+Before deploying resources:
+
+1. Navigate to [Billing](https://console.aquanode.ai/billing) in the console
+2. Add your payment method
+3. Purchase initial credits for your account
+
+## Step 3: Deploy your first GPU instance
+
+Now you're ready to launch your first GPU-powered instance:
+
+1. Open the [Deployments](https://console.aquanode.ai/deployments) page
+2. Click **New Deployment**
+3. Choose your GPU type:
+   - **RTX 4090** - Cost-effective for inference workloads
+   - **A100** - Balanced performance for training and inference
+   - **H100** - High-performance for large models
+4. Select **Pre-Configured VM** template
+5. Enter a deployment name (e.g., `my-first-deployment`)
+6. Click **Deploy** to launch your instance
+
+Your instance will be ready in 1-2 minutes.
+
+## Step 4: Connect to your instance
+
+Once your deployment is running:
+
+1. Click your deployment from the list
+2. In the deployment details, find the **Connect** section
+3. Use one of these connection methods:
+
+### SSH Access
+
+```bash
+ssh user@your-instance-ip
+```
+
+### Jupyter Notebook
+
+Click **Open Jupyter** to access a pre-configured notebook environment.
+
+### VS Code / Cursor
+
+Use the provided connection string to connect directly from your editor.
+
+## Step 5: Deploy your first model
+
+With your instance running, let's deploy a simple model:
+
+### Using the Inference API
+
+```bash
+curl -X POST https://api.aquanode.ai/v1/inference \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "llama2-7b",
+    "prompt": "Hello, world!",
+    "max_tokens": 100
+  }'
+```
+
+### Using the Model Pipeline
+
+1. Go to [Model Pipeline](https://console.aquanode.ai/models) in the console
+2. Click **Deploy Model**
+3. Enter your model details:
+   - **Model Name**: `my-first-model`
+   - **Source**: Choose from Hugging Face, GitHub, or upload
+   - **Instance Type**: Select your preferred GPU
+4. Click **Deploy**
+
+Your model will be available at a dedicated endpoint within minutes.
+
+## Step 6: Monitor your deployment
+
+Track your deployment performance:
+
+1. Visit the [Dashboard](https://console.aquanode.ai/dashboard)
+2. Monitor key metrics:
+   - **Active Deployments**
+   - **GPU Usage**
+   - **Current Spend Rate**
+   - **Monthly Usage**
+
+## Step 7: Clean up
+
+To avoid unnecessary charges:
+
+1. Go to your [Deployments](https://console.aquanode.ai/deployments)
+2. Click on your running deployment
+3. Click **Stop** to pause the instance
+4. Click **Terminate** to permanently delete (if you don't need the data)
+
+<div className="bg-orange-50 border border-orange-200 rounded-lg p-4 my-4">
+  <p className="text-orange-800 text-sm">
+    <strong>Note:</strong> Terminating a deployment permanently deletes all
+    data. Make sure to save any important files before termination.
+  </p>
+</div>
+
+## Next steps
+
+Now that you've completed the basics:
+
+- **Explore Templates**: Try pre-built templates for common AI workloads
+- **Scale Your Models**: Learn about auto-scaling and load balancing
+- **API Integration**: Integrate Aquanode's API into your applications
+- **Cost Optimization**: Understand pricing and cost-saving strategies
+
+## Need help?
+
+- Check our [Documentation](https://docs.aquanode.ai) for detailed guides
+- Join our [Community Discord](https://discord.gg/aquanode) for support
+- Contact our [Support Team](mailto:support@aquanode.ai) for technical assistance
+
+## What's different about Aquanode?
+
+- **80% Cost Savings**: Pay significantly less than traditional cloud providers
+- **Instant Deployment**: GPU instances ready in seconds, not minutes
+- **Unified API**: One interface for all your AI workloads
+- **No Setup**: Pre-configured environments ready to use
