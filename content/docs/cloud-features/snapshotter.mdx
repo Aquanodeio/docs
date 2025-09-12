@@ -1,11 +1,11 @@
 ---
-title: "Snapshotter"
+title: "Backups"
 description: "Automated backup and restore system for your VM deployments. Schedule regular backups and restore data between deployments."
 ---
 
 ## Prerequisites
 
-Before using snapshotter, you need to configure your storage credentials:
+Before using backups, you need to configure your storage credentials:
 
 ### Step 1: Add storage credentials
 
@@ -17,7 +17,7 @@ Before using snapshotter, you need to configure your storage credentials:
 
 
 
-## Enable snapshotter on deployment
+## Enable backups on deployment
 
 When creating a new VM deployment:
 
@@ -26,11 +26,11 @@ When creating a new VM deployment:
 1. Go to [New Deployment](https://console.aquanode.io/marketplace)
 2. Select your VM template and GPU configuration
 3. In the deployment configuration:
-   - Toggle **Enable Snapshotter** to ON
+   - Toggle **Enable Backups** to ON
    - Select your **Storage Configuration** from the dropdown
 4. Complete your deployment setup and click **Deploy**
 
-Your VM will launch with snapshotter enabled and ready to configure.
+Your VM will launch with backups enabled and ready to configure.
 
 ## Configure backup directories
 
@@ -39,7 +39,7 @@ Once your deployment is running:
 ### Step 3: Set up automated backups
 
 1. Navigate to your deployment details page
-2. Go to the **Snapshotter** tab
+2. Go to the **Backups** tab
 3. In the **Create Backups** section:
    - **Directory**: Enter the absolute path you want to backup (e.g., `/home/user/models`)
    - **Time Interval**: Set backup frequency in minutes (minimum 15 minutes)
@@ -121,7 +121,7 @@ The **Backup History** table shows all your snapshots:
 
 ## Pricing
 
-Snapshotter itself is free. You only pay for:
+Backups itself is free. You only pay for:
 - Storage costs from your configured provider (S3, GCS, etc.)
 - Minimal network transfer during backup/restore operations
 
@@ -129,4 +129,4 @@ Storage costs are typically $0.02-0.05 per GB per month depending on your provid
 
 ---
 
-*Snapshotter ensures your important data is always protected and easily recoverable across deployments.*
+*Backups ensures your important data is always protected and easily recoverable across deployments.*

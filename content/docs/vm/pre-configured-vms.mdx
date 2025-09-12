@@ -1,8 +1,100 @@
 ---
-title: Pre-configured VMs
-description: Explore pre-configured virtual machines
+title: "Pre-Configured VMs"
+description: "Deploy ready-to-use containerized virtual machines with popular operating systems and ML frameworks. Full SSH access included."
 ---
 
-# Pre-configured VMs
+## How it works
 
-Learn about the pre-configured virtual machines available on Aquanode.
+Pre-configured VMs run as containers with VM-like functionality:
+- **Full SSH access** - Connect with your preferred terminal or IDE
+- **Persistent storage** - Your data persists across sessions
+- **GPU support** - Available on compatible templates
+- **Container efficiency** - Faster startup than traditional VMs
+
+## Available Templates
+
+### Operating System VMs
+
+**Ubuntu VM** (24.04)
+- **Use case**: General purpose development, web servers, application hosting
+- **Providers**: Datacrunch, Akash, VoltageP ark
+
+**Alpine VM** (3.18.4)  
+- **Use case**: Minimal resource usage, microservices, lightweight applications
+- **Providers**: Datacrunch, Akash
+
+**Debian VM** (12)
+- **Use case**: Production environments, enterprise applications, stable deployments
+- **Providers**: Datacrunch, Akash
+
+**CentOS VM** (7)
+- **Use case**: Enterprise applications, Red Hat-based deployments
+- **Providers**: Datacrunch, Akash
+
+**Fedora VM** (39)
+- **Use case**: Cutting-edge development, testing latest software
+- **Providers**: Datacrunch, Akash
+
+**Arch Linux VM** (latest)
+- **Use case**: Advanced users, custom configurations, rolling release
+- **Providers**: Datacrunch, Akash
+
+### Machine Learning VMs
+
+**PyTorch Conda CUDA** (2.1.0)
+- **Use case**: Deep learning development, GPU training, research
+- **Pre-installed**: PyTorch, CUDA 12.1, cuDNN 8, Conda
+- **Providers**: Datacrunch, Akash
+
+**TensorFlow GPU** (2.14.0)
+- **Use case**: ML model development, training, deployment
+- **Pre-installed**: TensorFlow with GPU support
+- **Providers**: Datacrunch, Akash
+
+## Quick deployment
+
+1. Go to [VM Templates](https://console.aquanode.io/templates/vm)
+2. Choose your template
+3. Select GPU and resources (if needed)
+4. Add SSH key for access
+5. Click **Deploy**
+
+Your VM will be ready in 30-60 seconds.
+
+## Use cases
+
+**Web development**
+- Ubuntu/Debian VMs for LAMP/MEAN stacks
+- Full package manager access
+- Custom software installation
+
+**Machine learning**
+- PyTorch/TensorFlow VMs with CUDA pre-configured
+- Jupyter notebooks ready to use
+- Large datasets and model storage
+
+**Microservices**
+- Alpine VMs for minimal footprint
+- Container orchestration testing
+- CI/CD pipeline integration
+
+**Enterprise development**
+- CentOS/Debian for production-like environments
+- Security-focused configurations
+- Legacy application support
+
+## Best practices
+
+**Choose the right template**
+- Start with Ubuntu for general use
+- Use Alpine for minimal resource needs
+- Pick ML templates for AI/ML workloads
+
+**Security**
+- Always add your SSH key during deployment
+- Update packages after first login
+- Configure firewall rules as needed
+
+---
+
+*Pre-configured VMs give you the flexibility of traditional VMs with the speed and efficiency of containers.*
