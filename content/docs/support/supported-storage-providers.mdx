@@ -1,8 +1,41 @@
 ---
-title: Supported Storage Providers
-description: List of supported storage providers on Aquanode
+title: "Supported Storage Providers"
+description: "Configure storage providers for backups, logs, and persistent data across deployments."
 ---
 
-# Supported Storage Providers
+## Lighthouse Storage
+Service Type: lighthouse
 
-Learn about the storage providers supported by Aquanode.
+**Configuration**: API Key required  
+**Use Cases**: Log storage, backups, decentralized data  
+**Pricing**: ~$0.0005-0.001 per MB/month
+
+Decentralized storage on IPFS/Filecoin with permanent data retention.
+
+## Amazon Web Services (AWS)
+Service Type: s3
+
+**Configuration**:
+- Access Key ID
+- Secret Access Key  
+- AWS Region
+- Bucket Name
+
+**Use Cases**: Enterprise backups, data lakes, compliance storage  
+**Pricing**: $0.023+ per GB/month (varies by storage class)
+
+Enterprise object storage with multiple storage classes and global infrastructure.
+
+## Setup
+
+1. Go to [Settings](https://console.aquanode.ai/settings) → Integrations
+2. Click **Add Integration**
+3. Select your storage provider and enter credentials
+4. Use in deployment configuration for:
+   - Snapshotter automated backups
+   - Log storage persistence
+   - Data persistence across deployments
+
+---
+
+*Storage integrations are configured once and reused across all deployments.*
