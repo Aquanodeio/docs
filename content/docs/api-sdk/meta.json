@@ -1,0 +1,8 @@
+{
+  "title": "Api-sdk",
+  "pages": [
+    "cli-reference",
+    "rest-api",
+    "sdk-python"
+  ]
+}

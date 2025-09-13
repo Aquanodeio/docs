@@ -1,5 +1,5 @@
 ---
-title: "Quickstart"
+title: "Introduction"
 description: "Deploy your first GPU instance on Aquanode in minutes."
 ---
 
@@ -7,92 +7,63 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
 <Steps>
 <Step>
-## Create your account
+## Create an Account
 
-Start by creating your Aquanode account:
-
-1. [Sign up here](https://console.aquanode.io/login)
-2. Verify your email address
-3. Complete account setup
-
+1. [Sign up](https://console.aquanode.io/login) for an Aquanode account  
+2. Verify your email address  
+3. Complete the account setup process  
 </Step>
+
 <Step>
+## Deploy Your First GPU Instance
 
-## Deploy your first GPU instance
+1. Open the [Marketplace](https://console.aquanode.io/marketplace)  
+2. Select a GPU type and provider:  
+   - **RTX 4090** – Cost-effective for inference  
+   - **A100** – Balanced for training and inference  
+   - **H100** – High performance for large models  
+   - *...and more available options*  
+3. Choose a **Pre-Configured VM** template  
+4. Enter your resource requirements (RAM, vCPUs, and storage) and provide your SSH public key  
+5. Click **Deploy**  
 
-Now you're ready to launch your first GPU-powered instance:
-
-1. Open the [Marketplace](https://console.aquanode.io/marketplace) page
-2. Choose your GPU type and provider:
-
-   - **RTX 4090** - Cost-effective for inference workloads
-   - **A100** - Balanced performance for training and inference
-   - **H100** - High-performance for large models
-   - and many more
-
-3. Select **Pre-Configured VM** template
-4. Enter your required resources ( RAM, VCPU, and Storage ) and SSH public key.
-5. Click **Deploy** to launch your instance
-
-Your instance will be ready in 1-2 minutes.
-
+Your instance will be available within 1–2 minutes.  
 </Step>
+
 <Step>
+## Connect to Your Instance
 
-## Connect to your instance
-
-Once your deployment is running:
-
-1. Click your deployment from the list
-2. In the deployment details, find the **Connect** section
-3. Copy the SSH command and paste in termial to access the instance
-
+1. Open the list of deployments  
+2. Select your running deployment  
+3. In the **Connect** section, copy the SSH command  
+4. Paste the command into your terminal to access the instance  
 </Step>
+
 <Step>
+## Monitor Your Deployment
 
-## Monitor your deployment
-
-Track your deployment performance:
-
-1. Visit the [Deployments](https://console.aquanode.io/deployments)
-2. Click on > Icon to open details of a deployment
-3. Monitor key metrics:
-
-   - **Active Deployments**
-   - **GPU Usage**
-   - **Monthly Usage**
-
+1. Go to [Deployments](https://console.aquanode.io/deployments)  
+2. Select a deployment and open its details  
+3. Monitor key metrics:  
+   - **Active Deployments**  
+   - **GPU Usage**  
+   - **Monthly Usage**  
 </Step>
+
 <Step>
+## Clean Up
 
-## Clean up
+To avoid unnecessary charges:  
 
-To avoid unnecessary charges:
-
-1. Go to your [Deployments](https://console.aquanode.io/deployments)
-2. Click on your running deployment
-3. Click **Stop** to stop the instance
-
+1. Navigate to [Deployments](https://console.aquanode.io/deployments)  
+2. Select your running deployment  
+3. Click **Stop** to shut down the instance  
 </Step>
 </Steps>
 
-## Next steps
+---
 
-Now that you've completed the basics:
+## Next Steps
 
-- **Explore Templates**: Try pre-built templates for common AI workloads
-- **API Integration**: Integrate Aquanode's API into your applications
-- **Cost Optimization**: Understand pricing and cost-saving strategies
-- **Model Pipeline**: Host your own models on Aquanode. 
-
-## Need help?
-
-- Check our [Documentation](https://docs.aquanode.io) for detailed guides
-- Contact our [Support Team](mailto:support@aquanode.io) for technical assistance
-
-## What's different about Aquanode?
-
-- **80% Cost Savings**: Pay significantly less than traditional cloud providers
-- **Instant Deployment**: GPU instances ready in seconds, not minutes
-- **Unified API**: One interface for all your AI workloads
-- **No Setup**: Pre-configured environments ready to use
+- **[Explore Templates](/docs/cloud-features/templates)** – Try pre-built environments for common AI workloads  
+- **[Model Pipeline](/docs/models/hosting-huggingface-model)** – Host and manage your own models on Aquanode  

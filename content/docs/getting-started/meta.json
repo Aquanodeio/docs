@@ -1,8 +1,10 @@
 {
-  "title": "Getting Started",
+  "title": "Getting-Started",
   "pages": [
-    "introduction",
-    "quickstart", 
-    "navigating-aquanode"
+    "quickstart",
+    "sign-up",
+    "cli-api-overview",
+    "console-overview",
+    "first-deployment"
   ]
 }

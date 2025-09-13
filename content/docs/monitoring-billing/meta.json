@@ -1,0 +1,9 @@
+{
+  "title": "Monitoring-billing",
+  "pages": [
+    "alerts-notifications",
+    "billing-usage",
+    "logs-troubleshooting",
+    "metrics-dashboard"
+  ]
+}

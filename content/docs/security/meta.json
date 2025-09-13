@@ -1,0 +1,8 @@
+{
+  "title": "Security",
+  "pages": [
+    "access-control",
+    "data-protection",
+    "network-policies"
+  ]
+}

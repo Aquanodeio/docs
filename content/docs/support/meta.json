@@ -1,7 +1,10 @@
 {
   "title": "Support",
   "pages": [
+    "contact-support",
+    "faq",
     "supported-gpu-providers",
-    "supported-storage-providers"
+    "supported-storage-providers",
+    "troubleshooting"
   ]
 }

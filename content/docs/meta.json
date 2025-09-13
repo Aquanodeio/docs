@@ -1,4 +1,33 @@
 {
   "title": "Aquanode Docs",
-  "pages": ["getting-started", "cloud-features", "vm", "support"]
+  "description": "Documentation for Aquanode platform and console",
+  "icon": "Microchip",
+  "root": true,
+  "pages": [
+    "---Introduction---",
+    "index",
+    "quickstart",
+    "---Getting Started---",
+    "getting-started",
+    "---Cloud Features---",
+    "cloud-features",
+    "---VM & Infrastructure---",
+    "virtual-machines",
+    "---Deployments---",
+    "apps",
+    "---Models---",
+    "models",
+    "---Monitoring & Billing---",
+    "monitoring-billing",
+    "---API & SDK---",
+    "api-sdk",
+    "---Security & Compliance---",
+    "security",
+    "---Scaling & Best Practices---",
+    "scaling",
+    "---Support---",
+    "support",
+    "---Resources---",
+    "resources"
+  ]
 }

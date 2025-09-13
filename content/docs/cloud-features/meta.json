@@ -1,4 +1,11 @@
 {
-  "title": "Cloud Features",
-  "pages": ["store-logs", "snapshotter"]
+  "title": "Cloud-features",
+  "pages": [
+    "gpu-types-pricing",
+    "multi-provider-marketplace",
+    "snapshots-autoscaling",
+    "snapshotter",
+    "store-logs",
+    "templates"
+  ]
 }

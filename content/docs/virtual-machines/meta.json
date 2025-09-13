@@ -1,0 +1,11 @@
+{
+  "title": "Virtual-machines",
+  "pages": [
+    "instance-types",
+    "networking-security",
+    "pre-configured-vms",
+    "running-vm",
+    "storage-snapshots",
+    "vm-templates"
+  ]
+}
