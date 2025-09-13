@@ -1,141 +1,142 @@
 ---
 title: "Log Storage"
-description: "Store and access your deployment logs with Lighthouse integration. View real-time logs and maintain persistent log history."
+description: "Store and access deployment logs with Lighthouse integration. View real-time streams and maintain persistent log history."
 ---
 
 ## Prerequisites
 
-Before enabling log storage, you need a Lighthouse API key:
+Before enabling log storage, you need a **Lighthouse API key**.
 
-### Step 1: Get Lighthouse API key
+### Step 1: Get a Lighthouse API Key
 
-1. Visit [Lighthouse Storage](https://lighthouse.storage)
-2. Create an account or sign in
-3. Go to your dashboard and generate an API key
-4. Copy the API key for the next step
+1. Visit [Lighthouse Storage](https://lighthouse.storage)  
+2. Create an account or sign in  
+3. Open your dashboard and generate an API key  
+4. Copy the key for use during deployment  
 
-<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 my-4">
-  <p className="text-blue-800 text-sm">
-    <strong>Note:</strong> Lighthouse provides decentralized storage for your logs. 
-    You'll need credits in your Lighthouse account to store logs.
-  </p>
-</div>
-
-## Enable log storage on deployment
-
-When creating a new deployment:
-
-### Step 2: Configure log storage during deployment
-
-1. Go to [New Deployment](https://console.aquanode.ai/deployments/new)
-2. Select your template and configure your deployment
-3. In the deployment configuration section:
-   - Toggle **Store Logs** to ON
-   - Enter your **Lighthouse API Key** in the field that appears
-4. Complete your deployment setup and click **Deploy**
-
-Your deployment will now store logs to Lighthouse automatically.
-
-## View real-time logs
-
-Once your deployment is running, you can view live logs:
-
-### Step 3: Access the logs interface
-
-1. Navigate to your deployment details page
-2. Go to the **Logs** tab
-3. You'll see:
-   - **Connection status** (Connected/Disconnected)
-   - **Real-time log stream** with timestamps
-   - **Search functionality** to filter logs
-   - **Log level filters** (All, Stdout, Stderr)
-
-### Log interface features
-
-**Search logs**
-- Use the search box to find specific log entries
-- Search works across both message content and raw log data
-
-**Filter by type**
-- **All**: Shows all log entries with counts
-- **Stdout**: Standard output logs (normal application output)
-- **Stderr**: Error output logs (error messages and warnings)
-
-**Log controls**
-- **Refresh**: Reconnect and reload recent logs
-- **Clear**: Clear the current log display (doesn't delete stored logs)
-
-## Log format and colors
-
-Logs are displayed with different colors for easy identification:
-
-- **Gray**: Standard output (stdout) - normal application logs
-- **Red**: Error output (stderr) - errors and warnings  
-- **Blue**: Meta information - system messages and status updates
-
-Each log entry shows:
-- **Timestamp**: When the log was generated (HH:mm:ss.sss format)
-- **Message**: The actual log content
-
-## Persistent log storage
-
-With Lighthouse integration enabled:
-
-**Automatic storage**
-- All logs are automatically sent to Lighthouse storage
-- Logs remain accessible even after deployment termination
-- No manual action required once configured
-
-**Access stored logs**
-- Stored logs can be accessed through your Lighthouse dashboard
-- Logs are organized by deployment and timestamp
-- Search and download capabilities through Lighthouse interface
-
-## Best practices
-
-**API key security**
-- Keep your Lighthouse API key secure
-- Don't share API keys in code or public repositories
-- Rotate keys periodically for security
-
-**Log management**
-- Monitor your Lighthouse storage usage
-- Lighthouse charges based on storage used
-- Consider log retention policies for cost optimization
-
-**Debugging workflow**
-1. Enable log storage for important deployments
-2. Use real-time logs for immediate debugging
-3. Access stored logs for historical analysis
-4. Use search and filters to find specific issues quickly
-
-## Troubleshooting
-
-**Connection issues**
-- Check if your deployment is running
-- Verify network connectivity
-- Try refreshing the connection
-
-**Missing logs**
-- Ensure log storage was enabled during deployment
-- Check your Lighthouse API key is valid
-- Verify your Lighthouse account has sufficient credits
-
-**Search not working**
-- Search is case-insensitive and searches both message and raw content
-- Try broader search terms if no results appear
-- Clear search to see all logs again
-
-## Pricing
-
-**Aquanode logging**: Free - no additional charges for the logging interface
-
-**Lighthouse storage**: Pay-per-use based on:
-- Storage amount (typically $0.0005-0.001 per MB per month)
-- Lighthouse network fees for decentralized storage
-
-Check your [Lighthouse dashboard](https://lighthouse.storage/dashboard) for current usage and costs.
+<Callout title="Note">
+    Lighthouse provides decentralized storage for logs. 
+    Credits are required in your Lighthouse account to store logs.
+</Callout>
 
 ---
 
-*Log storage with Lighthouse ensures your deployment logs are always available for debugging and analysis.*
+## Enable Log Storage on Deployment
+
+Enable log storage when creating a new deployment.
+
+### Step 2: Configure Log Storage
+
+1. Go to [New Deployment](https://console.aquanode.ai/deployments/new)  
+2. Select your template and configure your deployment  
+3. In the configuration panel:  
+   - Toggle **Store Logs** to **ON**  
+   - Enter your **Lighthouse API Key** in the field provided  
+4. Complete your setup and click **Deploy**  
+
+Your deployment will now automatically store logs in Lighthouse.  
+
+---
+
+## View Real-Time Logs
+
+Once your deployment is running, you can view live logs in the console.
+
+### Step 3: Access Logs
+
+1. Open your deployment details page  
+2. Go to the **Logs** tab  
+3. The interface provides:  
+   - **Connection status** (Connected/Disconnected)  
+   - **Real-time log stream** with timestamps  
+   - **Search** to filter log content  
+   - **Log level filters** (All, Stdout, Stderr)  
+
+### Log Interface Features
+
+- **Search logs** – Search message content or raw log data  
+- **Filter by type** –  
+  - *All*: All logs with counts  
+  - *Stdout*: Standard application output  
+  - *Stderr*: Errors and warnings  
+- **Log controls** –  
+  - *Refresh*: Reconnect and reload recent logs  
+  - *Clear*: Clear the current display (stored logs remain intact)  
+
+---
+
+## Log Format and Colors
+
+Logs are color-coded for quick identification:  
+
+- **Gray** – Standard output (`stdout`)  
+- **Red** – Error output (`stderr`)  
+- **Blue** – Meta/system messages  
+
+Each entry includes:  
+- **Timestamp** (HH:mm:ss.sss)  
+- **Message** (log content)  
+
+---
+
+## Persistent Log Storage
+
+With Lighthouse integration enabled:  
+
+- **Automatic storage** – Logs are sent to Lighthouse and persist even after a deployment ends  
+- **Access stored logs** – Logs are accessible via your Lighthouse dashboard, organized by deployment and timestamp, with search and download options  
+
+---
+
+## Best Practices
+
+- **API key security**  
+  - Keep your Lighthouse API key private  
+  - Avoid committing it to code or public repos  
+  - Rotate keys periodically  
+
+- **Log management**  
+  - Monitor Lighthouse storage usage  
+  - Costs are based on stored log volume  
+  - Apply retention policies to control costs  
+
+- **Debugging workflow**  
+  1. Enable log storage for important deployments  
+  2. Use real-time logs for immediate debugging  
+  3. Access stored logs for historical analysis  
+  4. Use search and filters to pinpoint issues  
+
+---
+
+## Troubleshooting
+
+- **Connection issues**  
+  - Ensure your deployment is running  
+  - Check network connectivity  
+  - Refresh the connection  
+
+- **Missing logs**  
+  - Confirm log storage was enabled  
+  - Verify the Lighthouse API key is valid  
+  - Ensure sufficient Lighthouse credits are available  
+
+- **Search not working**  
+  - Searches are case-insensitive  
+  - Broaden search terms if no results appear  
+  - Clear filters to reset the view  
+
+---
+
+## Pricing
+
+- **Aquanode logging** – Free (no additional cost for the interface)  
+- **Lighthouse storage** – Pay-per-use, based on:  
+  - Storage size (typically $0.0005–0.001 per MB per month)  
+  - Network fees for decentralized storage  
+
+Check your [Lighthouse dashboard](https://lighthouse.storage/dashboard) for current usage and costs.  
+
+---
+
+*Lighthouse integration ensures your deployment logs remain available for real-time debugging and long-term analysis.*
+

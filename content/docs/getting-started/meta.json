@@ -2,9 +2,7 @@
   "title": "Getting-Started",
   "pages": [
     "quickstart",
-    "sign-up",
-    "cli-api-overview",
-    "console-overview",
-    "first-deployment"
+    "first-deployment",
+    "console-overview"
   ]
 }

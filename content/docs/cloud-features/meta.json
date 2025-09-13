@@ -3,8 +3,8 @@
   "pages": [
     "gpu-types-pricing",
     "multi-provider-marketplace",
-    "snapshots-autoscaling",
-    "snapshotter",
+    "snapshots",
+    "workspace-backup",
     "store-logs",
     "templates"
   ]
