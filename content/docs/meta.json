@@ -9,12 +9,20 @@
     "quickstart",
     "console-overview",
     "first-deployment",
+    "---Compatiability---",
+    "support/supported-gpu-providers",
+    "support/supported-storage-providers",
     "---Documentation---",
     "cloud-features",
     "virtual-machines",
     "apps",
+    "---Deploying Models---",
     "models",
+    "---Observability---",
     "monitoring",
-    "support"
+    "---Support---",
+    "support/faq",
+    "support/troubleshooting",
+    "support/contact-support.mdx"
   ]
 }
