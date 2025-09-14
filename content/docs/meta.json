@@ -7,8 +7,6 @@
     "---Introduction---",
     "index",
     "quickstart",
-    "console-overview",
-    "first-deployment",
     "---Compatiability---",
     "support/supported-gpu-providers",
     "support/supported-storage-providers",
@@ -18,11 +16,8 @@
     "apps",
     "---Deploying Models---",
     "models",
-    "---Observability---",
-    "monitoring",
     "---Support---",
     "support/faq",
-    "support/troubleshooting",
-    "support/contact-support.mdx"
+    "support/troubleshooting"
   ]
 }

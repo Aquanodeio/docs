@@ -1,8 +1,49 @@
 ---
 title: Troubleshooting
-description: Coming soon
 ---
 
-# Troubleshooting
+### I cannot log in
+- Double-check your email and password.  
+- If using SSO, ensure your identity provider (e.g., GitHub, Google) is not blocked.  
+- Reset your password via the **Forgot Password** option.  
+- Still stuck? Contact [support@aquanode.io](mailto:support@aquanode.io).
 
-Coming soon...
+### My dashboard is empty
+- Confirm you are logged into the correct account/workspace.  
+- Check if your team/workspace has active resources.  
+- Refresh the page or log out and back in.
+
+### VM deployment fails
+- Verify your GPU quota (some providers limit access).  
+- Ensure your **S3-compatible storage config** is valid (AWS S3, MinIO, Backblaze, etc.).  
+- Check logs in the deployment console for errors.  
+- Try a smaller VM size or different provider region.  
+
+### Model deployment doesn’t start
+- Confirm your model repository is accessible (e.g., public Hugging Face or GitHub repo).  
+- If using a private repo, ensure you’ve configured the correct access token.  
+- Check that your Docker image builds successfully locally.  
+- Verify the model template supports your selected GPU.
+
+### Snapshots & backups not working
+- Make sure you’ve added a valid S3 configuration under **Settings → Storage**.  
+- Confirm that your storage bucket allows read/write access.  
+- Check for typos in credentials or endpoint URLs.  
+- If automated snapshots fail, try a manual snapshot first.
+
+### Billing or usage looks incorrect
+- Verify the correct workspace is selected.  
+- Refresh the billing dashboard.  
+- Remember: prices may differ slightly between providers (Akash, DataCrunch, Voltage Park).  
+- Contact [billing@aquanode.io](mailto:billing@aquanode.io) if discrepancies remain.
+
+---
+
+## General Tips
+
+- Always check the [documentation](https://docs.aquanode.io/docs/) for the latest setup guides.  
+- Monitor real-time logs from your VM or deployment for errors.  
+- When reporting issues, include:
+  - Your account email  
+  - The resource ID or deployment ID  
+  - Error messages/screenshots  

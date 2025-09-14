@@ -1,11 +1,8 @@
 {
   "title": "Apps",
   "pages": [
-    "apps-overview",
-    "custom-model-deployment",
     "deploying-through-docker",
     "deploying-through-github",
-    "huggingface",
     "one-click-apps",
     "one-click-deployments"
   ]

@@ -1,8 +1,38 @@
 ---
 title: GPU Types & Pricing
-description: Coming soon
+description: Compare GPU options, capabilities, and pricing across providers
 ---
 
 # GPU Types & Pricing
 
-Coming soon...
+Different workloads require different GPUs. Below you can compare available GPU models, their specifications, and pricing across providers.
+
+## GPU Catalog
+
+| GPU Model     | Memory | Ideal Use Case         | Providers                 |
+|---------------|--------|------------------------|---------------------------|
+| NVIDIA H100   | 80 GB  | Large LLM training     | Akash, DataCrunch, Voltage Park |
+| NVIDIA A100   | 40/80 GB | Training & inference | Akash, DataCrunch         |
+| RTX 6000 ADA  | 48 GB  | Inference, CV, smaller models | DataCrunch |
+| NVIDIA B200   | 192 GB | Next-gen LLM workloads | DataCrunch                |
+
+## Pricing Overview
+
+| Provider      | GPU Model   | On-Demand Price/hr | Reserved Price | Notes              |
+|---------------|-------------|-------------------:|---------------|--------------------|
+| Akash         | A100 80 GB  | varies (auction)   | N/A           | Reverse auction model |
+| DataCrunch    | H100 80 GB  | ~$2.5/hr           | Monthly contract | Dynamic pricing available |
+| Voltage Park  | HGX H100    | $1.99/hr           | Reserved 6+ months | Enterprise-grade clusters |
+
+## Pricing Models Explained
+
+- **Akash** → Decentralized auction marketplace, often cheapest  
+- **DataCrunch** → Fixed + dynamic pricing, contract options  
+- **Voltage Park** → On-demand + long-term reservations for scaling  
+
+---
+
+### Next Steps
+
+Check the [Multi-Provider Marketplace](/docs/cloud-features/multi-provider-marketplace) page for more details about each provider.
+

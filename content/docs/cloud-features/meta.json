@@ -5,7 +5,6 @@
     "multi-provider-marketplace",
     "snapshots",
     "workspace-backup",
-    "store-logs",
-    "templates"
+    "store-logs"
   ]
 }
