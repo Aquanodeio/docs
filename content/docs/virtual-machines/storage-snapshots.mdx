@@ -1,8 +1,64 @@
 ---
 title: Storage & Snapshots
-description: Coming soon
+
 ---
 
-# Storage & Snapshots
+## VM-deployment-template
 
-Coming soon...
+![vm-template](../images/snapshots/vm_temp.png)
+
+Choose your already saved credentials or Add New Config
+
+**Use S3-Compatible storage service**
+
+Like aws-s3, minio, backblaze(one of the lowest cost)
+
+## Add S3 Config
+
+![config-s3](../images/snapshots/config_s3.png)
+
+You can also store the config via going on Settings and add there.
+
+*Make sure config is correct*
+
+## Create Backups
+
+**you did some work or have a already decided workspace, so create it’s backup**
+
+![example-backup](../images/snapshots/example_backup.png)
+
+- Input the absolute path of your Directory
+- Start The automated snapshots **Start Automated**
+
+![create-backups](../images/snapshots/create_backups.png)
+
+**Manual Snapshots**
+
+After starting from clicking on **Start Automated**
+
+Click on **Take Snapshot** to take manual snapshot
+![manual-snapshot](../images/snapshots/snapshot_mannual.png)
+*It’s strongly recommended to do manual snapshot once before closing the Instance.*
+
+
+**See ongoing backup history of that deployment**
+
+![backup-history-running](../images/snapshots/backup_history_running.png)
+
+We take incremental snapshots, both for automated or manual.
+
+## Restore Backups
+
+You created new development, but continue from a particular backups of your
+
+![restore-backup](../images/snapshots/restore_backups.png)
+
+**Chose the backup**
+
+![chose-backup](../images/snapshots/chose_backup.png)
+
+## Restored
+
+![restored-vm](../images/snapshots/restored_vm.png)
+
+## Hurray!! You are good to go
