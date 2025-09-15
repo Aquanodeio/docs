@@ -1,26 +1,92 @@
 ---
-title: Hosting a Huggingface Model
-description: How to host Huggingface models on Aquanode
+title: Hosting a Hugging Face Model
 ---
 
-# Hosting a Huggingface Model
+Aquanode makes it easy to deploy and serve Hugging Face models using the **[vLLM inference engine](https://vllm.ai/)**. This allows you to host large language models (LLMs) or text-to-text models with optimized GPU utilization and fast API response times.  
 
-Step-by-step guide to hosting HuggingFace models on Aquanode.
+---
 
-You can host text-to-text HuggingFace models on Aquanode seamlessly via vllm engine.
+## Step 1 — Navigate to Model Pipelines
 
-1. Go to **Model Pipelines** section under **WORKLOADS**
+1. In the Aquanode Console, go to:  
+   **Workloads → Model Pipelines**  
+2. Select the **Serverless vLLM** option.  
 
-2. Enter the configuration like:
-- model repo url
-- HF TOKEN
-- API KEY
-and other settings you want to config.
+Direct link: [Model Pipelines Console](https://console.aquanode.io/workloads/model-pipeline/serverless-vllm)
 
-3. Select an appropriate GPU according to your model and config
+---
 
-4. **Deploy**
+## Step 2 — Configure Your Model
 
-You will get a link to request to, with you API_KEY
+Fill in the required fields:
 
-!!Hurray, we did it.
+- **Model Repository URL** → The Hugging Face model repo (e.g., `huggingface/transformers`, `meta-llama/Llama-2-7b-chat-hf`)  
+- **HF Token** → Your Hugging Face access token (required for gated/private models)  
+- **API Key** → Custom API key that will be required to access your deployment  
+- **Additional Settings** → (Optional) batch size, max tokens, or other runtime configurations  
+
+This ensures Aquanode can fetch your model and set up the inference server.
+
+---
+
+## Step 3 — Select Resources
+
+Choose hardware suitable for your model:
+
+- **GPU** → Select from available options (H100, A100, B200, RTX series). Larger models (13B, 70B) require high-memory GPUs.  
+- **Memory & Storage** → Aquanode will recommend defaults, but you can adjust for your workload.  
+
+> **Tip:** For LLaMA 2–7B or Falcon-7B models, A100 80GB is usually sufficient. For larger models (13B+), choose H100 or B200 with higher memory.
+
+---
+
+## Step 4 — Deploy
+
+Click **Deploy**.  
+Your deployment may take a few minutes while Aquanode:  
+- Pulls the Hugging Face model weights  
+- Sets up the vLLM runtime  
+- Allocates your selected GPU  
+
+Once active, your service will appear in the **Active Deployments** list.
+
+---
+
+## Step 5 — Use the API
+
+After deployment, you will receive a unique **endpoint URL**.  
+
+You can make requests to it using your API key:
+
+```bash
+curl -X POST "https://api.aquanode.io/v1/deployments/<deployment-id>/predict" \
+  -H "Authorization: Bearer <API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "inputs": "Write me a haiku about Aquanode and GPUs"
+  }'
+````
+
+The service will return a JSON response with your model’s output.
+
+---
+
+## Notes & Best Practices
+
+* Ensure your Hugging Face token has **read permissions** for gated/private models.
+* Use GPUs with **sufficient memory** to avoid out-of-memory errors.
+* For production use, monitor GPU utilization and autoscale when needed.
+* Secure your API key — treat it like a password.
+
+---
+
+## Next Steps
+
+* Use **Snapshots** to save your environment for reuse.
+* Combine multiple Hugging Face deployments with other **Aquanode services** for end-to-end ML workflows.
+
+---
+
+🎉 **You’re all set!**
+Your Hugging Face model is now live on Aquanode, powered by **vLLM** and GPU acceleration.
+
