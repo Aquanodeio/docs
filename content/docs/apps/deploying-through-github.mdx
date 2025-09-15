@@ -1,24 +1,50 @@
 ---
 title: Deploying through Github
-description: Deploy applications from Github repositories
+description: Deploy applications directly from Github repositories on Aquanode
 ---
 
-# Deploying through Github
+Deploy your Node.js and Python applications directly from Github repositories on Aquanode's infrastructure with automated builds and deployments.
 
-Learn how to deploy applications directly from your Github repositories.
+## Deployment Process
 
-We currently support node and python applications hosting via GitHub Repositories
+### Step 1: Access Github Deployment
 
-1. Go to service section
+Navigate to the Services section in your Aquanode dashboard.[Github Deployment](https://console.aquanode.io/workloads/services/github)
 
-2. Choose **Github Repo** tab
+### Step 2: Select Github Repo Tab
 
-3. Enter you github repo link and other configs
+Choose the **Github Repo** tab to begin configuring your repository deployment.
 
-4. Install command, Run command, github token for private repo, etc.
+### Step 3: Configure Your Repository
 
-6. click on **Deploy on GitHub**
+#### A. Repository Configuration
 
-Hurray!! We did it.
+- #### Public repository 
+  - **Github Repository Link**: Enter public your repository URL
 
-*Note: Currently we support only **node** and **python** applications.*
+- #### Private Repository
+  1. **Connect Github Account**: Click on the "Connect Github" button to authorize Aquanode to access your private repositories.
+  2. **Select Repository**: After connecting, select the desired private repository from the dropdown list.
+  3. **Branch Selection**: Choose the branch you want to deploy (e.g., `main`, `development`).
+
+#### B. Application Configuration
+
+- **Install Command**: Commands to install dependencies (e.g., `npm install`, `pip install -r requirements.txt`)
+- **Run Command**: Commands to start your application (e.g., `npm start`, `python app.py`)
+- **Environment Variables**: Configure runtime settings and secrets
+
+#### C. Machine Configuration
+
+- **CPU & Memory**: Allocate resources based on your application needs
+- **Storage**: Persistent storage for application data
+- **Port Configuration**: Configure network access for your application
+
+### Step 4: Deploy on GitHub
+
+Review your configuration and click **Deploy on GitHub**.
+
+Hurray! Your application is now deployed and running.
+
+## Supported Applications
+
+Currently we support **Node.js** and **Python** applications for Github repository deployments.
