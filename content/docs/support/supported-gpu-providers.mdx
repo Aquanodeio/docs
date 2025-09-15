@@ -1,38 +1,47 @@
 ---
-title: "Supported GPU Providers"
-description: "Aquanode partners with leading GPU cloud providers to offer high-performance computing resources."
+title: Supported GPU Providers
+description: Aquanode integrates multiple providers to ensure **reliable, cost-efficient, and flexible GPU compute**. Provider selection is handled automatically based on **availability, pricing, and performance requirements**.
 ---
 
-## VoltagePark
-Provider ID: voltagepark
+import { Callout } from "fumadocs-ui/components/callout";
 
-**GPUs**: H100, H200, A100, RTX 4090  
-**Regions**: US East, US West, EU Central  
-**Focus**: Enterprise-grade infrastructure
+## Providers
 
-## DataCrunch
-Provider ID: datacrunch
+### Voltage Park
+- **GPUs:** H100, H200, A100, RTX 4090  
+- **Regions:** US East, US West, EU Central  
+- **Focus:** Enterprise-grade infrastructure with high availability and performance  
 
-**GPUs**: H100, A100, RTX 4090, RTX 3090  
-**Regions**: Netherlands, Finland, Canada  
-**Focus**: Cost-effective GPU computing
+---
 
-## Akash Network
-Provider ID: akash
+### DataCrunch
+- **GPUs:** H100, A100, RTX 4090, RTX 3090  
+- **Regions:** Netherlands, Finland, Canada  
+- **Focus:** Cost-effective GPU compute with flexible pricing  
 
-**GPUs**: A100, RTX 4090, RTX 3090, V100  
-**Regions**: Global distributed network  
-**Focus**: Decentralized cloud computing
+---
+
+### Akash Network
+- **GPUs:** A100, RTX 4090, RTX 3090, V100  
+- **Regions:** Global, decentralized network  
+- **Focus:** Open, peer-to-peer decentralized cloud computing  
+
+---
 
 ## Available GPUs
 
-**H100** - 80GB HBM3 - Large language models, training  
-**H200** - 141GB HBM3e - Memory-intensive workloads  
-**A100** - 40GB/80GB HBM2e - ML training and inference  
-**RTX 4090** - 24GB GDDR6X - Development and small models  
-**RTX 3090** - 24GB GDDR6X - Cost-effective prototyping  
-**V100** - 16GB/32GB HBM2 - Legacy ML workloads
+| GPU Model   | Memory       | Best For                                |
+|-------------|-------------|------------------------------------------|
+| **H100**    | 80GB HBM3   | Large language models, distributed training |
+| **H200**    | 141GB HBM3e | Memory-intensive AI/ML workloads         |
+| **A100**    | 40GB / 80GB HBM2e | ML training and inference          |
+| **RTX 4090**| 24GB GDDR6X | Development, inference, small models     |
+| **RTX 3090**| 24GB GDDR6X | Cost-effective prototyping and testing   |
+| **V100**    | 16GB / 32GB HBM2 | Legacy ML workloads and compatibility |
 
 ---
 
-*Provider selection is automatic based on availability, pricing, and performance requirements.*
+<Callout title="Note">
+  - Providers may update their hardware offerings over time.  
+  - GPU allocation is optimized by Aquanode to balance **cost, performance, and availability**.  
+</Callout>

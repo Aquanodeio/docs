@@ -1,43 +1,80 @@
 ---
-title: "Supported Storage Providers"
-description: "Configure storage providers for backups, logs, and persistent data across deployments."
+title: Supported Storage Providers
+description: Configure storage providers for backups, logs, and persistent data across deployments.
+---
+
+# Supported Storage Providers
+
+Aquanode supports both **centralized** and **decentralized** storage systems for backups, logs, and persistent application data. Storage integrations are configured once and reused across all deployments.
+
+---
+
+## Amazon Web Services (AWS S3)
+**Service Type:** `s3`
+
+- **Configuration:**  
+  - Access Key ID  
+  - Secret Access Key  
+  - AWS Region  
+  - Bucket Name  
+
+- **Use Cases:** Enterprise backups, data lakes, compliance storage  
+
+AWS S3 is a highly reliable **enterprise object storage service**. It offers global infrastructure, multiple durability options, and strong integration with existing enterprise workloads.
+
+---
+
+## Backblaze B2
+**Service Type:** `s3` (S3-compatible)
+
+- **Configuration:**  
+  - Key ID  
+  - Application Key  
+  - Endpoint URL  
+  - Bucket Name  
+
+- **Use Cases:** Application backups, content storage, log retention  
+
+Backblaze B2 is an **S3-compatible object storage service** known for simplicity and flexibility. It integrates easily with existing S3 clients and supports scalable storage for apps, data pipelines, and log archives.
+
+---
+
+## MinIO
+**Service Type:** `s3` (S3-compatible)
+
+- **Configuration:**  
+  - Access Key  
+  - Secret Key  
+  - Endpoint URL  
+  - Bucket Name  
+
+- **Use Cases:** Self-hosted object storage, on-premise clusters, private cloud  
+
+MinIO is a **lightweight, self-hosted object storage system** that speaks the S3 API. It’s ideal for private deployments, hybrid clouds, and teams who need local control while keeping compatibility with the S3 ecosystem.
+
 ---
 
 ## Lighthouse Storage
-Service Type: lighthouse
+**Service Type:** `lighthouse`
 
-**Configuration**: API Key required  
-**Use Cases**: Log storage, backups, decentralized data  
-**Pricing**: ~$0.0005-0.001 per MB/month
+- **Configuration:** API Key required  
+- **Use Cases:** Log storage, backups, decentralized data  
 
-Decentralized storage on IPFS/Filecoin with permanent data retention.
-
-## Amazon Web Services (AWS)
-Service Type: s3
-
-**Configuration**:
-- Access Key ID
-- Secret Access Key  
-- AWS Region
-- Bucket Name
-
-**Use Cases**: Enterprise backups, data lakes, compliance storage  
-**Pricing**: $0.023+ per GB/month (varies by storage class)
-
-Enterprise object storage with multiple storage classes and global infrastructure.
-
-***We support s3-compatible storage, therefore s3-services like backblaze or minio can also be used.***
-
-## Setup
-
-1. Go to [Settings](https://console.aquanode.ai/settings) → Integrations
-2. Click **Add Integration**
-3. Select your storage provider and enter credentials
-4. Use in deployment configuration for:
-   - Snapshotter automated backups
-   - Log storage persistence
-   - Data persistence across deployments
+Lighthouse provides **decentralized storage** on top of IPFS and Filecoin. It ensures data persistence with **permanent retention**, making it suitable for critical backups and long-term archival in distributed environments.
 
 ---
 
-*Storage integrations are configured once and reused across all deployments.*
+## Setup
+
+1. Go to [Settings](https://console.aquanode.io/settings) → **Integrations**  
+2. Click **Add Integration**  
+3. Select your storage provider and enter credentials  
+4. Use in deployment configuration for:  
+   - Automated snapshots  
+   - Log persistence  
+   - Data persistence across deployments  
+
+---
+
+*Aquanode supports any S3-compatible service. You can use AWS S3, Backblaze B2, MinIO, or other compatible systems interchangeably.*  
+
