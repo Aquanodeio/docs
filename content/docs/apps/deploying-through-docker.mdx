@@ -3,24 +3,24 @@ title: Deploying through Docker
 description: Deploy applications using Docker containers on Aquanode
 ---
 
-Aquanode allows you to deploy **custom applications** using Docker images hosted in any container registry (Docker Hub, GitHub Container Registry, private registries, etc.). This provides maximum flexibility for running your own APIs, ML workloads, or microservices directly on Aquanode’s GPU and CPU infrastructure.  
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
-You can access this here: [Docker Services Console](https://console.aquanode.io/workloads/services/docker)
+<Steps>
+<Step>
 
----
+## Navigate to Services
 
-## Step 1 — Navigate to Services
-
-1. From the Aquanode Console, go to **Services** under Workloads.  
+1. From the Aquanode Console, go to [Services](https://console.aquanode.io/workloads/services) under Workloads.  
 2. You will see deployment options for:  
    - **GitHub Repo** → Deploy from a GitHub repository  
    - **Docker Image** → Deploy directly from a Docker image  
 
 Select **Docker Image**.  
 
----
+</Step>
+<Step>
 
-## Step 2 — Configure Docker Image
+## Configure Docker Image
 
 On the Docker configuration screen, enter details of your container:  
 
@@ -30,9 +30,10 @@ On the Docker configuration screen, enter details of your container:
 
 This defines which image will be deployed and how it will be exposed.  
 
----
+</Step>
+<Step>
 
-## Step 3 — Build Settings
+## Build Settings
 
 Specify basic runtime settings:  
 
@@ -41,9 +42,10 @@ Specify basic runtime settings:
 
 These settings control how much compute power your service receives and for how long it is provisioned.
 
----
+</Step>
+<Step>
 
-## Step 4 — Resource Settings
+## Resource Settings
 
 Define memory and storage requirements:  
 
@@ -58,9 +60,10 @@ Optionally, configure GPU settings if your container requires GPU acceleration:
 
 If no GPU is selected, the service runs on CPU-only resources.  
 
----
+</Step>
+<Step>
 
-## Step 5 — Select GPU (Optional)
+## Select GPU (Optional)
 
 Scroll down to view available GPU options.  
 You can choose:  
@@ -70,9 +73,10 @@ You can choose:
 
 Selecting a GPU ensures your Docker container can leverage GPU acceleration for ML inference, training, or high-performance workloads.  
 
----
+</Step>
+<Step>
 
-## Step 6 — Create Deployment
+## Create Deployment
 
 1. Once configurations are complete, click **Create Deployment**.  
 2. Your deployment will appear in the Services list with a status of **Active** or **Pending**.  
@@ -83,6 +87,9 @@ You can track status under **Services → Active/Closed tabs**.
 <Callout title="Note">
   Logs become available once the container is running.
 </Callout>
+
+</Step>
+</Steps>
 
 ---
 

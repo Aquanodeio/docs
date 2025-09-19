@@ -1,82 +1,138 @@
 ---
 title: OSS Models
-description: Open source models available on Aquanode
+description: Deploy Open-Source models from a list of available models with GPU acceleration for inference.
 ---
 
-Aquanode provides a curated catalog of **open-source models** that you can deploy instantly via the console. These models cover text, code, vision, and generative tasks, powered by **vLLM** and **Ollama runtimes** for efficient inference.
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+<Steps>
+<Step>
+
+## Access the Models Gallery
+
+Navigate to [Inference](https://console.aquanode.io/workloads/inference).
+
+</Step>
+<Step>
+
+## Select Your Model
+
+Browse through available pre-configured models organized by category:
+
+- **Language Models**: OpenAI OSS 20B, Deepseek, Gemma, Llama, Phi
+- **Image Generation**: Flux Kontext, Flux Dev, Flux Krea, Cogview
+- **Computer Vision**: Qwen 2.5 VL, YOLO, ResNet, object detection models
+
+Select the model you want to deploy.
+
+</Step>
+<Step>
+
+## GPU Selection
+
+After selecting a model, you'll be redirected to a GPU selection page where you can choose from a wide range of GPU providers and configurations. Each provider offers different GPU types with specific configurations optimized for model inference.
+
+Browse the GPU gallery and select the GPU that best matches your performance and budget requirements.
+
+</Step>
+<Step>
+
+## Configure Your Model
+
+A configuration sheet opens as a side panel containing all necessary settings to customize your model deployment.
+
+#### A. Port Configuration
+
+Configure network access for your model API:
+
+- **Primary Port**: Main port for model API endpoints
+- **Additional Ports**: Secondary ports if needed for monitoring or management
+
+#### B. Machine Configuration
+
+- GPU Configuration (AI Apps Only)
+- CPU & Memory
+- Storage Configuration
+
+Aquanode provides optimized default configurations for each model based on requirements and performance testing, but certain settings can be customized depending upon selected provider.
+
+</Step>
+<Step>
+
+## Deploy Your Model
+
+Review your configuration summary including:
+
+- **Resource Allocation**: Total GPU, CPU, memory, and storage
+- **Estimated Costs**: Monthly cost projection
+
+Click the "Deploy" button to initiate deployment.
+
+</Step>
+</Steps>
 
 ---
 
-## Featured Models
+### Featured Models
 
-- **Flux.1-Dev** → Flux’s developer model optimized for fast deployment.  
-- **Flux.1-Kontext-dev** → Flux’s context-aware model for multimodal tasks.  
-- **Flux.1-Krea-dev** → Flux’s creative-focused model for generative use cases.  
+- **Flux.1-Dev** → Flux’s developer model optimized for fast deployment.
+- **Flux.1-Kontext-dev** → Flux’s context-aware model for multimodal tasks.
+- **Flux.1-Krea-dev** → Flux’s creative-focused model for generative use cases.
 
 ---
 
-## Text Models
+### Text Models
 
 - **DeepSeek-R1 1.5B / 8B / 14B / 32B / 70B**  
-  DeepSeek’s reasoning-focused models in multiple parameter sizes.  
-
+  DeepSeek’s reasoning-focused models in multiple parameter sizes.
 - **Gemma / Gemma 2**  
-  Google’s lightweight language models via Ollama.  
-
+  Google’s lightweight language models via Ollama.
 - **Llama 3.1 / 3.2 / 3.3**  
-  Meta’s Llama 3.x family via Ollama.  
-
+  Meta’s Llama 3.x family via Ollama.
 - **Phi / Phi 3 / Phi 3.5**  
-  Microsoft’s compact and efficient Phi series via Ollama.  
-
+  Microsoft’s compact and efficient Phi series via Ollama.
 - **Qwen 2.5**  
-  Alibaba’s Qwen 2.5 model via Ollama.  
-
+  Alibaba’s Qwen 2.5 model via Ollama.
 - **OpenAI OSS 20B / 120B**  
-  OpenAI’s GPT-OSS open models via vLLM.  
+  OpenAI’s GPT-OSS open models via vLLM.
 
 ---
 
-## Coding Models
+### Coding Models
 
 - **Qwen 2.5 Coder**  
-  Specialized variant of Qwen 2.5 optimized for coding and programming tasks.  
+  Specialized variant of Qwen 2.5 optimized for coding and programming tasks.
 
 ---
 
-## Vision & Multimodal Models
+### Vision & Multimodal Models
 
 - **Qwen 2.5 VL**  
-  Vision-language model (text + image) from Alibaba, served via vLLM.  
-
+  Vision-language model (text + image) from Alibaba, served via vLLM.
 - **Flux.1-Kontext-dev**  
-  Multimodal image-text-to-image model for contextual generative tasks.  
-
+  Multimodal image-text-to-image model for contextual generative tasks.
 - **Flux.1-Krea-dev**  
-  Multimodal model optimized for creative workflows.  
+  Multimodal model optimized for creative workflows.
 
 ---
 
-## Text-to-Image Models
+### Text-to-Image Models
 
 - **Flux.1-Schnell**  
-  High-speed text-to-image model optimized for fast deployment.  
-
+  High-speed text-to-image model optimized for fast deployment.
 - **Flux.1-Dev**  
-  Flux Dev model available for text-to-image generation.  
-
+  Flux Dev model available for text-to-image generation.
 - **CogView4-6B**  
-  CogView4 generative model for high-quality text-to-image inference.  
+  CogView4 generative model for high-quality text-to-image inference.
 
 ---
 
-## Usage Notes
+### Usage Notes
 
-- All models are hosted with **Aquanode’s Inference APIs**, accessible with your API key.  
-- Models can be deployed via [Model Pipelines Console](https://console.aquanode.io/workloads/model-pipeline/serverless-vllm).  
-- Select GPU resources based on model size (e.g., larger models like DeepSeek 70B require H100/B200).  
+- All models are hosted with Aquanode’s Inference APIs, accessible with your API key.
+- Models can be deployed via the [Inference gallery](https://console.aquanode.io/workloads/inference) or [vLLM](/docs/models/hosting-huggingface-model) or [ComfyUI](/docs/models/comfyui).
+- Select GPU resources based on model size (e.g., larger models like DeepSeek 70B require H100/B200).
 
 ---
 
-🎉 With Aquanode’s OSS catalog, you can quickly deploy **LLMs, multimodal models, and generative pipelines** without worrying about infrastructure.
-
+🎉 With Aquanode’s OSS catalog, you can quickly deploy LLMs, multimodal models, and generative pipelines without worrying about infrastructure.

@@ -3,14 +3,9 @@ title: Supported Storage Providers
 description: Configure storage providers for backups, logs, and persistent data across deployments.
 ---
 
-# Supported Storage Providers
-
-Aquanode supports both **centralized** and **decentralized** storage systems for backups, logs, and persistent application data. Storage integrations are configured once and reused across all deployments.
-
----
-
 ## Amazon Web Services (AWS S3)
-**Service Type:** `s3`
+**Service Type:** `s3` <br />
+**Documentation:** [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html)
 
 - **Configuration:**  
   - Access Key ID  
@@ -25,7 +20,8 @@ AWS S3 is a highly reliable **enterprise object storage service**. It offers glo
 ---
 
 ## Backblaze B2
-**Service Type:** `s3` (S3-compatible)
+**Service Type:** `s3` (S3-compatible) <br />
+**Documentation:** [Backblaze B2](https://www.backblaze.com/docs/cloud-storage-enable-backblaze-b2)
 
 - **Configuration:**  
   - Key ID  
@@ -40,7 +36,8 @@ Backblaze B2 is an **S3-compatible object storage service** known for simplicity
 ---
 
 ## MinIO
-**Service Type:** `s3` (S3-compatible)
+**Service Type:** `s3` (S3-compatible) <br />
+**Documentation:** [MinIO](https://docs.min.io/community/minio-object-store/operations/deployments/installation.html)
 
 - **Configuration:**  
   - Access Key  
@@ -55,7 +52,8 @@ MinIO is a **lightweight, self-hosted object storage system** that speaks the S3
 ---
 
 ## Lighthouse Storage
-**Service Type:** `lighthouse`
+**Service Type:** `lighthouse` <br />
+**Documentation:** [Lighthouse Storage](https://docs.lighthouse.storage)
 
 - **Configuration:** API Key required  
 - **Use Cases:** Log storage, backups, decentralized data  

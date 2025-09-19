@@ -1,9 +1,8 @@
 {
   "title": "Models",
   "pages": [
-    "index",
-    "comfyui",
     "hosting-huggingface-model",
+    "comfyui",
     "oss-models"
   ]
 }

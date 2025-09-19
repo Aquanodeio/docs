@@ -1,12 +1,14 @@
 ---
 title: Hosting a Hugging Face Model
+description: Aquanode simplifies the deployment and serving of Hugging Face models with the vLLM inference engine, enabling you to host large language models (LLMs) and text-to-text models with optimized GPU efficiency and lightning-fast API responses.
 ---
 
-Aquanode makes it easy to deploy and serve Hugging Face models using the **[vLLM inference engine](https://vllm.ai/)**. This allows you to host large language models (LLMs) or text-to-text models with optimized GPU utilization and fast API response times.  
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
----
+<Steps>
+<Step>
 
-## Step 1 — Navigate to Model Pipelines
+## Navigate to Model Pipelines
 
 1. In the Aquanode Console, go to:  
    **Workloads → Model Pipelines**  
@@ -14,9 +16,10 @@ Aquanode makes it easy to deploy and serve Hugging Face models using the **[vLLM
 
 Direct link: [Model Pipelines Console](https://console.aquanode.io/workloads/model-pipeline/serverless-vllm)
 
----
+</Step>
+<Step>
 
-## Step 2 — Configure Your Model
+## Configure Your Model
 
 Fill in the required fields:
 
@@ -27,9 +30,10 @@ Fill in the required fields:
 
 This ensures Aquanode can fetch your model and set up the inference server.
 
----
+</Step>
+<Step>
 
-## Step 3 — Select Resources
+## Select Resources
 
 Choose hardware suitable for your model:
 
@@ -38,9 +42,10 @@ Choose hardware suitable for your model:
 
 > **Tip:** For LLaMA 2–7B or Falcon-7B models, A100 80GB is usually sufficient. For larger models (13B+), choose H100 or B200 with higher memory.
 
----
+</Step>
+<Step>
 
-## Step 4 — Deploy
+## Deploy
 
 Click **Deploy**.  
 Your deployment may take a few minutes while Aquanode:  
@@ -50,9 +55,10 @@ Your deployment may take a few minutes while Aquanode:
 
 Once active, your service will appear in the **Active Deployments** list.
 
----
+</Step>
+<Step>
 
-## Step 5 — Use the API
+## Use the API
 
 After deployment, you will receive a unique **endpoint URL**.  
 
@@ -69,6 +75,9 @@ curl -X POST "https://api.aquanode.io/v1/deployments/<deployment-id>/predict" \
 
 The service will return a JSON response with your model’s output.
 
+</Step>
+</Steps>
+
 ---
 
 ## Notes & Best Practices
@@ -76,7 +85,7 @@ The service will return a JSON response with your model’s output.
 * Ensure your Hugging Face token has **read permissions** for gated/private models.
 * Use GPUs with **sufficient memory** to avoid out-of-memory errors.
 * For production use, monitor GPU utilization and autoscale when needed.
-* Secure your API key — treat it like a password.
+* Secure your API key, treat it like a password.
 
 ---
 
@@ -88,5 +97,5 @@ The service will return a JSON response with your model’s output.
 ---
 
 🎉 **You’re all set!**
-Your Hugging Face model is now live on Aquanode, powered by **vLLM** and GPU acceleration.
+Your Hugging Face model is now live on Aquanode, powered by vLLM and GPU acceleration.
 
