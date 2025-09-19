@@ -1,0 +1,31 @@
+# lychee.toml
+# What to scan
+include = ["**/*.md", "**/*.mdx"]         # Fumadocs content, READMEs, etc.
+exclude = [
+  "**/node_modules/**",
+  ".next/**",
+  "dist/**",
+]
+
+# Behavior
+max_concurrency = 8
+retry_wait_time = 2
+max_retries = 3
+timeout = 20
+
+# Common false-positives / ignorable hosts
+exclude_path = [
+  # add any local demo links here
+]
+exclude_mail = true
+schemes = ["http", "https"]
+
+# Skip or allowlist domains (rate-limiting, walled gardens, etc.)
+# Use one of these blocks as needed:
+# accept = ["200..299", "429"]   # treat 429s as soft-OK if you prefer
+# or:
+# exclude = ["example.com", "localhost", "127.0.0.1"]
+
+# Treat anchors strictly (set to true to fail on missing #fragment ids)
+# NOTE: Many sites strip headings in prod; feel free to set false.
+require_https = false
