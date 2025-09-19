@@ -9,11 +9,19 @@ One-click apps are pre-built, production-ready applications that can be deployed
 
 ## Deployment Process
 
-### Step 1: Access the One-Click Apps Gallery
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+<Steps>
+<Step>
+
+## Access the One-Click Apps Gallery
 
 Navigate to [One Click App](https://console.aquanode.io/templates/one-click-apps).
 
-### Step 2: Select Your Application
+</Step>
+<Step>
+
+## Select Your Application
 
 Browse through available one-click apps organized into categories:
 
@@ -24,7 +32,10 @@ Browse through available one-click apps organized into categories:
 
 Select the app you want to deploy.
 
-### Step 3: GPU Selection (AI Apps Only)
+</Step>
+<Step>
+
+## GPU Selection (AI Apps Only)
 
 **For AI Applications**
 When you select an AI-specific application, you'll be redirect to our gpu marketplace. Here you can browse and select from available GPU options in our GPU gallery. After selecting your preferred GPU, the configuration sheet will open.
@@ -32,11 +43,17 @@ When you select an AI-specific application, you'll be redirect to our gpu market
 **For Non-AI Applications**
 Non-AI applications don't require GPU configuration, so the configuration sheet opens immediately after selection.
 
-### Step 4: Configuration Sheet
+</Step>
+<Step>
+
+## Configuration Sheet
 
 A configuration sheet opens as a side panel containing all necessary settings to customize your deployment.
 
-### Step 5: Configure Your Application
+</Step>
+<Step>
+
+## Configure Your Application
 
 #### A. Port Configuration
 
@@ -64,7 +81,10 @@ When enabled, provide your Lighthouse API Key to forward logs to Aquanode's cent
 
 - **API Key Input**: Enter your Lighthouse API key
 
-### Step 6: Deploy Your Application
+</Step>
+<Step>
+
+## Deploy Your Application
 
 After configuring all settings, review your configuration summary displayed at the bottom of the sheet. This summary includes:
 
@@ -75,4 +95,7 @@ After configuring all settings, review your configuration summary displayed at t
 
 **Deploy Button**
 Click the "Deploy" button to initiate the deployment process. 
+
+</Step>
+</Steps>
 

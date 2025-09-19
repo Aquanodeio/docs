@@ -4,21 +4,22 @@ description: Deploy applications directly from GitHub repositories with automate
 ---
 
 import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
-Aquanode allows you to deploy applications directly from your **GitHub repositories**. This method is ideal for Node.js and Python apps, enabling automated builds and deployments with minimal setup.
+<Steps>
+<Step>
 
----
-
-## Step 1 — Navigate to Services
+## Navigate to Services
 
 1. From the Aquanode Console, go to **Workloads → Services** or at [GitHub Deployment](https://console.aquanode.io/workloads/services/github).  
 2. Select the **GitHub Repo** option.  
 
 This opens the GitHub Deployment screen where you can connect your repository.
 
----
+</Step>
+<Step>
 
-## Step 2 — Configure Source Control
+## Configure Source Control
 
 - **Repository URL** → Enter the HTTPS link to your public or private GitHub repository, e.g. `https://github.com/username/repository`.  
 - **Branch** → Specify which branch should be built (default: `main`).  
@@ -26,9 +27,10 @@ This opens the GitHub Deployment screen where you can connect your repository.
 
 This tells Aquanode which codebase to fetch and build.
 
----
+</Step>
+<Step>
 
-## Step 3 — Build Settings
+## Build Settings
 
 Define how your application should be built and started:
 
@@ -45,9 +47,10 @@ Example (Node.js app):
 - Output Directory → `dist`  
 - Port → `3000`  
 
----
+</Step>
+<Step>
 
-## Step 4 — Resource Settings
+## Resource Settings
 
 Select the resources your deployment should use:
 
@@ -61,9 +64,10 @@ Optional:
 
 If GPU is not selected, the deployment runs on CPU-only nodes.
 
----
+</Step>
+<Step>
 
-## Step 5 — Deploy
+## Deploy
 
 1. Review your configuration.  
 2. Click **Deploy on GitHub**.  
@@ -76,7 +80,8 @@ Deployments typically take a few minutes to become active.
 
 Once live, you can view your service in the **Active Services** tab.
 
----
+</Step>
+</Steps>
 
 ## Example: Deploying a Node.js App
 

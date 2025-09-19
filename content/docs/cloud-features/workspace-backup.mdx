@@ -23,7 +23,9 @@ Before enabling backups, configure your storage credentials.
   - Self-hosted, deployable on Kubernetes or bare metal  
   - [Installation Guide](https://docs.min.io/community/minio-object-store/operations/deployments/installation.html)  
 
-### Step 1: Add Storage Credentials
+---
+
+## Add Storage Credentials
 
 1. Go to [Settings](https://console.aquanode.io/settings) in the console  
 2. Open the **Integrations** section  
@@ -36,8 +38,6 @@ Before enabling backups, configure your storage credentials.
 ## Enable Backups on Deployment
 
 Backups can be enabled when creating a new VM.
-
-### Step 2: Enable During Deployment
 
 1. Go to [Marketplace](https://console.aquanode.io/marketplace)  
 2. Select your VM template and GPU configuration  
@@ -54,8 +54,6 @@ Your VM will launch with backups enabled.
 
 Once your deployment is running, configure automated backup paths.
 
-### Step 3: Set Up Automated Backups
-
 1. Open your deployment details page  
 2. Go to the **Backups** tab  
 3. In the **Create Backups** section:  
@@ -67,4 +65,10 @@ Once your deployment is running, configure automated backup paths.
 ```text
 Directory: /workspace/models
 Time Interval: 60 minutes
+```
 
+---
+
+## Next Steps
+
+[Checkout Guide on Snapshotting a VM](../virtual-machines/storage-snapshots)

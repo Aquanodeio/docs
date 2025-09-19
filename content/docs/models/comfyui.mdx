@@ -1,38 +1,54 @@
 ---
 title: ComfyUI
-description: Deploy ComfyUI for AI image generation on Aquanode
+description: Deploy ComfyUI, a powerful node-based interface for Stable Diffusion, on Aquanode's optimized infrastructure with GPU acceleration.
 ---
 
-Deploy ComfyUI, a powerful node-based interface for Stable Diffusion, on Aquanode's optimized infrastructure with GPU acceleration.
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
-## Deployment Process
+<Steps>
+<Step>
 
-### Step 1: Access ComfyUI Deployment
+## Access ComfyUI Deployment
 
 Navigate to [Serverless ComfyUI](https://console.aquanode.io/workloads/model-pipeline/serverless-comfyui).
 
-### Step 2: Review Configuration
+</Step>
+<Step>
+
+## Review Configuration
 
 You'll see a page displaying the basic configuration for ComfyUI. These configurations are pre-set and cannot be edited, but show you what ports are available:
 
 - **VS Code UI Port**: Access to integrated development environment
 - **ComfyUI App Port**: Main ComfyUI running port
 
-### Step 3: Continue to Deploy
+</Step>
+<Step>
+
+## Continue to Deploy
 
 Click "Continue to Deploy" to proceed with the deployment process.
 
-### Step 4: GPU Selection
+</Step>
+<Step>
+
+## GPU Selection
 
 You'll be redirected to a GPU selection page where you can choose from a wide range of GPU providers and configurations. Each provider offers different GPU types with specific configurations optimized for ComfyUI workflows.
 
 Browse the GPU gallery and select the GPU that best matches your performance and budget requirements.
 
-### Step 5: Configuration Sheet
+</Step>
+<Step>
+
+## Configuration Sheet
 
 A configuration sheet opens as a side panel containing all necessary settings to customize your ComfyUI deployment.
 
-### Step 6: Configure Your ComfyUI
+</Step>
+<Step>
+
+## Configure Your ComfyUI
 
 #### A. Port Configuration
 
@@ -49,7 +65,10 @@ Configure network access for your ComfyUI instance:
 
 Aquanode provides optimized default configurations for ComfyUI based on performance testing, but certain settings can be customized depending upon selected provider.
 
-### Step 7: Deploy ComfyUI
+</Step>
+<Step>
+
+## Deploy ComfyUI
 
 Review your configuration summary including:
 
@@ -57,3 +76,6 @@ Review your configuration summary including:
 - **Estimated Costs**: Monthly cost projection
 
 Click the "Deploy" button to initiate deployment.
+
+</Step>
+</Steps>
