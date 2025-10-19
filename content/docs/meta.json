@@ -12,6 +12,7 @@
     "support/supported-storage-providers",
     "---Documentation---",
     "cloud-features",
+    "backups",
     "virtual-machines",
     "apps",
     "---Deploying Models---",

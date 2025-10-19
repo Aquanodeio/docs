@@ -1,0 +1,98 @@
+---
+title: Storage & Snapshots
+description: Snapshots allow you to back up and restore your VM environments quickly and reliably. This section explains how to configure S3-compatible storage, create backups, and restore snapshots.
+---
+
+***You can use any s3-compatible storage service, we provided just example of backblaze as it's one of the cheapest.***
+
+***Just use value of your s3-compatible storage service and you are good to go!!***
+
+**You can check a tutorial for getting config for your backblaze here [tutorial](../backups/backblaze-setup)**
+
+## VM Deployment Template
+
+![vm-template](../images/snapshots/vm_temp.png)
+
+When deploying a VM, you can either **select an existing configuration** or **add a new one**.
+
+> **Note:** You must use an **S3-compatible storage service** such as [AWS S3](https://aws.amazon.com/s3/), [MinIO](https://min.io/), or [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (one of the lowest-cost options).
+
+---
+
+## Add S3 Configuration
+
+### Go to backups
+
+![config-s3](../images/snapshots/gotobackups.png)
+
+### Choose your provider
+
+![config-choose](../images/snapshots/choose_config.png)
+
+### Enter your config
+
+![enter-config](../images/snapshots/config_enter.png)
+
+> **Important:** Ensure your configuration is correct before proceeding. Incorrect credentials may prevent backups or restores.
+
+---
+
+## Create Backups
+
+
+If you have made progress in your workspace or want to preserve a known state, you can create backups.
+
+![example-backup](../images/snapshots/example_backup.png)
+
+### Automated Snapshots
+
+- Enter the **absolute path** of the directory you want to back up.  
+- Click **Start Automated** to enable recurring snapshots.
+
+![create-backups](../images/snapshots/create_backups.png)
+
+### Manual Snapshots
+
+Once automated snapshots are enabled, you can also take a manual snapshot at any time:  
+
+- Click **Take Snapshot**.  
+- A snapshot of the current state will be saved immediately.  
+
+![manual-snapshot](../images/snapshots/snapshot_mannual.png)
+
+> **Recommendation:** Always take a manual snapshot before shutting down an instance.
+
+### Backup History
+
+You can view the history of ongoing backups for each deployment:
+
+![backup-history-running](../images/snapshots/backup_history_running.png)
+
+Both **automated** and **manual** snapshots are incremental, which makes them efficient in terms of speed and storage usage.
+
+---
+
+## Restore Backups
+
+You can restore a VM to a previous state using any saved backup.
+
+![restore-backup](../images/snapshots/restore_backups.png)
+
+### Select a Backup
+
+Choose the snapshot you want to restore:
+
+![chose-backup](../images/snapshots/chose_backup.png)
+
+### Restored VM
+
+Once the restore process completes, your VM will be reverted to the chosen state:
+
+![restored-vm](../images/snapshots/restored_vm.png)
+
+---
+
+## Success
+
+Your environment has been restored successfully. 🎉  
+You are ready to continue working from your chosen snapshot.
