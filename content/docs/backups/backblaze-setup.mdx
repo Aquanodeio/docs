@@ -9,7 +9,18 @@ A guide to setup the backblaze and get your keys
 
 ## Create a Bucket
 
+Before you begin: You must enable a Backblaze B2 account.
+
+1. Sign in to the Backblaze web console.
+2. In the left navigation menu under B2 Cloud Storage, click Buckets.
+3. Click Create a Bucket.
+
 ![create-bucket](../images/backblaze-setup/create_bucket_1.png)
+
+4. Enter a name for your bucket. Bucket names must be at least six characters and globally unique.
+5. A message is displayed if your bucket name is already in use.
+6. Select a privacy setting: Private or Public.
+
 
 ![create-bucket](../images/backblaze-setup/create_bucket.png)
 
@@ -17,39 +28,40 @@ A guide to setup the backblaze and get your keys
 
 Here you can see the:
 
-This is s3-compatible endpoint
+This is S3-compatible endpoint
 
-**EndPoint**: s3.eu-central.backblazeb2.com
+**EndPoint**: `s3.eu-central-003.backblazeb2.com`
 
-**Region**: eu-central
+**Region**: `eu-central-003`
 
 ## Create Application keys
 
-Go To
+1. Sign in to the Backblaze web console.
+2. In the left navigation menu under B2 Cloud Storage, click **Application Keys**
+
 
 ![Application-key-button](../images/backblaze-setup/application_key.png)
 
-Choose Application keys and then *Add a New Application Key*
+3. Click **Add a New Application Key**, and enter an app key name.
 
 ![add-application-key](../images/backblaze-setup/create_application_key.png)
 
+4. Choose the appropriate bucket you want to give access to.
+5. Select your access type (Read and Write is required here for backups to work from Aquanode's Console).
+6. Click Create New Key.
+
 ![create-Application-key](../images/backblaze-setup/new_key.png)
 
-Choose the appropriate bucket you want to give access to.
-Make sure:
-
-*Type of Access* : Read and write both
-
-Avoid configuring other options
+7. Note the resulting `keyID` and `applicationKey` values.
 
 ![application-keys](../images/backblaze-setup/your_key.png)
 
-!!Hurray we got the keys
+Hurray we got the keys!
 
 We already got:
 
-**EndPoint**: **s3.eu-central.backblazeb2.com**
+**EndPoint**: **s3.eu-central-003.backblazeb2.com**
 
-**Region**: **eu-central**
+**Region**: **eu-central-003**
 
 **Bucket Name** (that we set): **back-bucket**
