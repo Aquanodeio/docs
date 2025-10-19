@@ -25,50 +25,6 @@ Before enabling backups, configure your storage credentials.
 
 ---
 
-## Add Storage Credentials
-
-1. Go to [Settings](https://console.aquanode.io/settings) in the console  
-2. Open the **Integrations** section  
-3. Click **Add Integration** and select your provider  
-4. Enter your storage credentials (e.g., S3, B2, MinIO)  
-5. Save the configuration  
-
----
-
-## Enable Backups on Deployment
-
-Backups can be enabled when creating a new VM.
-
-1. Go to [Marketplace](https://console.aquanode.io/marketplace)  
-2. Select your VM template and GPU configuration  
-3. In the configuration panel:  
-   - Toggle **Enable Backups** to **ON**  
-   - Select your **Storage Configuration** from the dropdown  
-4. Click **Deploy**  
-
-Your VM will launch with backups enabled.  
-
----
-
-## Configure Backup Directories
-
-Once your deployment is running, configure automated backup paths.
-
-1. Open your deployment details page  
-2. Go to the **Backups** tab  
-3. In the **Create Backups** section:  
-   - **Directory** – Absolute path to back up (e.g., `/home/user/models`)  
-   - **Time Interval** – Backup frequency in minutes (minimum: 15 minutes)  
-4. Click **Start Automated**  
-
-**Example:**  
-```text
-Directory: /workspace/models
-Time Interval: 60 minutes
-```
-
----
-
 ## Next Steps
 
-[Checkout Guide on Snapshotting a VM](../virtual-machines/storage-snapshots)
+[Checkout Full Guide on Snapshotting a VM](../backups/snapshot-walkthrough)
