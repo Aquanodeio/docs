@@ -2,7 +2,6 @@
   "title": "Virtual Machines",
   "pages": [
     "instance-types",
-    "running-vm",
-    "vm-templates"
+    "running-vm"
   ]
 }

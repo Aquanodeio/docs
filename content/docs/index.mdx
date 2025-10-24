@@ -1,6 +1,7 @@
 ---
-title: "Introduction"
+title: "Aquanode"
 description: "Aquanode supercharges GPU infrastructure with advanced capabilities so you can build faster."
+icon: Rocket
 ---
 
 import { Step, Steps } from "fumadocs-ui/components/steps";
@@ -18,16 +19,39 @@ View GPU availability, pricing, and specs for instances across multiple cloud pr
 </Step>
 
 <Step>
-Enable toolings and integrations like VM backups, storage providers etc.
+Configure toolings and integrations like snapshots, monitoring, storage buckets etc.
 </Step>
 
 </Steps>
 
 ---
 
+## Overview
+
+Aquanode let’s you deploy GPUs across multiple clouds, with built-in toolings and connector support.
+
+1. Aquanode is free. No fees. No hidden charges.
+2. No need for multi-account setup across clouds.
+3. Manage billing in one place - supporting both credit/debit cards and Solana.
+4. Pause your VM when not using it and resume it later, with all your data intact.
+5. Store your backups and data in any of AWS, Backblaze B2, MiniO.
+6. Monitor your VM's performance and usage in real-time.
+
+---
+
+## Problem we solve
+
+The GPU cloud market is fragmented. Providers use separate consoles, APIs, pricing models, and access rules, which makes it hard for developers to compare, manage, and optimize compute across platforms.
+
+Most services provide only a raw VM with little or no tooling. There is no native tooling or integration support such as snapshots, backups, lifecycle policies, or connector storage for snapshot data, leaving teams with longer development cycles, more complex setup, fragile scripted workflows, and a higher risk of data loss and downtime.
+
+Moving workloads or recovering across platforms still requires manual conversion, custom storage handling, and significant operational effort.
+
+---
+
 ## Getting Started
 
-Aquanode provides the essentials for running AI at scale, without the overhead of managing cloud infrastructure.
+To learn more about how Aquanode helps you deploy GPUs with the best experience, continue to the sections ahead.
 
 <Cards>
   <Card 
@@ -36,11 +60,11 @@ Aquanode provides the essentials for running AI at scale, without the overhead o
     description="Provision GPU VMs on demand with full root access"
   />
   <Card 
-    title="Backup & Snapshots" 
+    title="Pause & Resume VM" 
     href="/docs/cloud-features/workspace-backup"
     description="Schedule backups and snapshots of your VM"
   />
-  <Card 
+  {/* <Card 
     title="Deploy a HuggingFace Model" 
     href="/docs/models/hosting-huggingface-model"
     description="Deploy HuggingFace models with one click"
@@ -59,6 +83,6 @@ Aquanode provides the essentials for running AI at scale, without the overhead o
     title="Inference OSS models" 
     href="/docs/models/oss-models"
     description="Choose from models like Llama, Flux, DeepSeek, etc."
-  />
+  /> */}
 
 </Cards>
