@@ -1,0 +1,95 @@
+---
+title: AWS Setup
+description: A guide to setup s3 bucket on AWS
+---
+
+# Setup
+
+A guide to setup S3 Bucket in AWS
+
+## Go to S3
+
+Open console and go to All services
+
+![all-service](/aws-setup/console.png)
+
+
+Now here select **S3**
+![s3-service](/aws-setup/s3_service.png)
+
+## Create a Bucket
+
+Click on **Create Bucket**
+
+A setting page will open up for your bucket.
+
+![create-bucket](/aws-setup/create_bucket.png)
+
+## General Settings
+
+Write name of the bucket
+
+![setting](/aws-setup/general_config.png)
+
+You can Block public access, unless and until you wish to share these backups with everyone across world.
+![public-access](/aws-setup/public_access.png)
+
+You should **disable** it at default, Keeping each version consumes more storage (more bills).
+![bucket-version](/aws-setup/bucket_version.png)
+
+## Additonal Settings (doesn't effect backups)
+
+![add-setting-1](/aws-setup/additional_1.png)
+
+## Done
+
+![create-bucket-final](/aws-setup/create_bucket_final.png)
+
+![done](/aws-setup/done.png)
+
+*PS: name of bucket different from chosen name, as amazon requires your bucket name to be unique in global namespace*
+
+
+## Let's Create ACCESS_KEY and SECRET_KEY now.
+
+Revisit **All Services**
+
+and go to **IAM** service, remember do not visit **IAM Identity Center**
+
+IAM dashboard will open.
+![iam-dashboard](/aws-setup/iam_console.png)
+
+Go to **Users** in left side-bar
+
+![user-sidebar](/aws-setup/user-sidebar.png)
+
+Click on user you want to go with, (Create a user if not already available)
+
+![console-user](/aws-setup/user_console.png)
+
+Go to **Access keys**
+
+Click on **Create access key**
+
+![popup](/aws-setup/user_service_pop.png)
+
+Choose Command Line Interface(CLI)
+
+Click on Next
+
+Describe Tag value. e.g. backup-s3-keys
+
+Click on **Create access key**
+
+![done-user](/aws-setup/done_user.png)
+**!!Done**
+
+### Root user (not recommended by aws) Only use this If you don't want to create a user.
+
+A console will open, here go to **Access keys**
+
+![access-key-board](/aws-setup/access_keys.png)
+
+Click on **Create access key**
+
+![done-accesskey](/aws-setup/done_key.png)

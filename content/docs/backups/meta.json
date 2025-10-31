@@ -2,6 +2,7 @@
   "title": "Backups",
   "pages": [
     "snapshot-walkthrough",
+    "aws-setup",
     "backblaze-setup"
   ]
 }
