@@ -1,13 +1,27 @@
 ---
-title: Storage & Snapshots
-description: Snapshots allow you to back up and restore your VM quickly and reliably.
+title: Migrations
+description: Migrate your GPU workload to a different provider or GPU type without losing your setup.
+---
+
+Migrations in Aquanode let you move a running workload from one GPU or provider to another. Your environment and data are preserved through the process using Aquanode's built-in storage.
+
+---
+
+## How It Works
+
+1. **Take a snapshot** of your current VM (see [Backups](/docs/cloud-features/workspace-backup)).
+2. **Launch a new VM** on your target provider or GPU type.
+3. **Restore the snapshot** on the new VM.
+
+Your environment will be available on the new GPU exactly as you left it.
+
 ---
 
 ## VM Deployment Template
 
 ![vm-template](/snapshots/vm_temp.png)
 
-When deploying a VM, you can either **select an existing configuration** or **add a new one**.
+When deploying a new VM for migration, you can select an existing snapshot configuration to restore from.
 
 ---
 
@@ -25,66 +39,23 @@ When deploying a VM, you can either **select an existing configuration** or **ad
 
 ![enter-config](/snapshots/config_enter.png)
 
-> **Important:** Ensure your configuration is correct before proceeding. Incorrect credentials may prevent migrations or restores.
+> **Important:** Ensure your configuration is correct before proceeding.
 
 ---
 
-## Create Migrations
+## Select a Snapshot to Restore
 
-
-If you have made progress in your workspace or want to preserve a known state, you can create migrations.
-
-![example-backup](/snapshots/example_backup.png)
-
-### Automated Snapshots
-
-- Enter the **absolute path** of the directory you want to migrate.  
-- Click **Start Automated** to enable recurring snapshots.
-
-![create-backups](/snapshots/create_backups.png)
-
-### Manual Snapshots
-
-Once automated snapshots are enabled, you can also take a manual snapshot at any time:  
-
-- Click **Take Snapshot**.  
-- A snapshot of the current state will be saved immediately.  
-
-![manual-snapshot](/snapshots/snapshot_mannual.png)
-
-> **Recommendation:** Always take a manual snapshot before shutting down an instance.
-
-### Migration History
-
-You can view the history of ongoing migrations for each deployment:
-
-![backup-history-running](/snapshots/backup_history_running.png)
-
-Both **automated** and **manual** snapshots are incremental, which makes them efficient in terms of speed and storage usage.
-
----
-
-## Restore Migrations
-
-You can restore a VM to a previous state using any saved migration.
-
-![restore-backup](/snapshots/restore_backups.png)
-
-### Select a Migration
-
-Choose the snapshot you want to restore:
+Choose the snapshot from your source VM:
 
 ![chose-backup](/snapshots/chose_backup.png)
 
 ### Restored VM
 
-Once the restore process completes, your VM will be reverted to the chosen state:
+Once the restore process completes, your VM will be running on the new GPU:
 
 ![restored-vm](/snapshots/restored_vm.png)
 
 ---
 
-## Success
-
-Your environment has been restored successfully. 🎉  
-You are ready to continue working from your chosen snapshot.
+**Your environment has been restored successfully 🎉  
+You are ready to continue working from your chosen Backup.**
