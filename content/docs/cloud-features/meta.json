@@ -3,7 +3,6 @@
   "pages": [
     "gpu-types-pricing",
     "snapshots",
-    "workspace-backup",
-    "store-logs"
+    "workspace-backup"
   ]
 }

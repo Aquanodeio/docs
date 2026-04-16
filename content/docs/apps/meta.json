@@ -3,7 +3,6 @@
   "pages": [
     "deploying-through-docker",
     "deploying-through-github",
-    "one-click-apps",
-    "one-click-deployments"
-  ]
+    "one-click-apps"
+    ]
 }

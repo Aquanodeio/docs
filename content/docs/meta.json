@@ -9,11 +9,10 @@
     "quickstart",
     "---Compatiability---",
     "compatibility/supported-gpu-providers",
-    "compatibility/supported-storage-providers",
     "---Documentation---",
     "cloud-features",
     "virtual-machines",
-    "backups",
+    "migrations",
     "---Support---",
     "support/faq",
     "support/troubleshooting"
