@@ -1,0 +1,36 @@
+---
+title: How It Works
+description: An overview of the core services powering the Aquanode platform.
+---
+
+Aquanode is built on three internal services that work together to provide a seamless GPU cloud experience.
+
+---
+
+## Mjolnir — Unified GPU API
+
+Mjolnir is the central API layer that sits between Aquanode and all GPU providers. It exposes a single, unified API regardless of which provider is powering your deployment.
+
+- Supports **web2 datacenters**, **web3 networks**, and **community-based providers**
+- Abstracts away provider-specific APIs, pricing models, and access rules
+- Makes it straightforward to add new providers without changing how the rest of the platform works
+
+---
+
+## Themis — Reconciliation Service
+
+Themis ensures consistency between Aquanode's internal state and what Mjolnir reports from providers.
+
+- Continuously reconciles your account balance and resource usage across providers
+- Catches and corrects any drift between the Aquanode database and live provider data
+- Keeps billing accurate and deployments in sync
+
+---
+
+## Ogre — Worker Service
+
+Ogre is the background worker responsible for the operational health of your deployments.
+
+- Monitors **GPU health** and **resource access** across active VMs
+- Collects and reports **metrics** for your deployments in real time
+- Powers platform features like **backups** (automated and manual snapshots) and **migrations** (moving workloads across GPUs)
