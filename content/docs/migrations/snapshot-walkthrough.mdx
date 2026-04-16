@@ -1,13 +1,7 @@
 ---
 title: Storage & Snapshots
-description: Snapshots allow you to back up and restore your VM environments quickly and reliably. This section explains how to configure S3-compatible storage, create migrations, and restore snapshots.
+description: Snapshots allow you to back up and restore your VM quickly and reliably.
 ---
-
-***You can use any s3-compatible storage service, we provided just example of backblaze as it's one of the cheapest.***
-
-***Just use value of your s3-compatible storage service and you are good to go!!***
-
-**You can check a tutorial for getting config for your backblaze here [tutorial](../migrations/backblaze-setup)**
 
 ## VM Deployment Template
 
@@ -15,11 +9,9 @@ description: Snapshots allow you to back up and restore your VM environments qui
 
 When deploying a VM, you can either **select an existing configuration** or **add a new one**.
 
-> **Note:** You must use an **S3-compatible storage service** such as [AWS S3](https://aws.amazon.com/s3/), [MinIO](https://min.io/), or [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (one of the lowest-cost options).
-
 ---
 
-## Add S3 Configuration
+## Add Storage Configuration
 
 ### Go to migrations
 
