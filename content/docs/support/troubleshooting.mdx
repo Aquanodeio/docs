@@ -15,7 +15,7 @@ title: Troubleshooting
 
 ### VM deployment fails
 - Verify your GPU quota (some providers limit access).  
-- Ensure your **S3-compatible storage config** is valid (AWS S3, MinIO, Backblaze, etc.).  
+- Ensure your **Aquanode storage config** is valid.  
 - Check logs in the deployment console for errors.  
 - Try a smaller VM size or different provider region.  
 
@@ -26,9 +26,7 @@ title: Troubleshooting
 - Verify the model template supports your selected GPU.
 
 ### Snapshots & backups not working
-- Make sure you’ve added a valid S3 configuration under **Settings → Storage**.  
-- Confirm that your storage bucket allows read/write access.  
-- Check for typos in credentials or endpoint URLs.  
+- Make sure you're in the **Backups** section of your deployment.
 - If automated snapshots fail, try a manual snapshot first.
 
 ### Billing or usage looks incorrect

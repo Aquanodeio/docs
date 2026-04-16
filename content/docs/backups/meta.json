@@ -1,9 +1,0 @@
-{
-  "title": "Backups",
-  "pages": [
-    "snapshot-walkthrough",
-    "aws-setup",
-    "minio-setup",
-    "backblaze-setup"
-  ]
-}

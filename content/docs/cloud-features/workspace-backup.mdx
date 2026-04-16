@@ -1,30 +1,63 @@
 ---
 title: "Backups"
-description: "Automated backup and restore system for VM deployments. Schedule regular backups and restore data across deployments."
+description: "Save your VM data with automated or manual snapshots. Restore on any GPU, anytime."
 ---
 
-{/* TODO: Add Images */}
-## Prerequisites
+Backups let you save the state of your VM's data at any point. You can restore a backup on any GPU — it's not tied to the original deployment.
 
-Backups in Aquanode currently require **S3-compatible object storage**.  
-Before enabling backups, configure your storage credentials.
-
-### Supported Providers
-
-- **AWS S3**  
-  - [Get Started with S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html)  
-  - [Create a Bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)  
-
-- **BackBlaze B2**  
-  - [Get Started with BackBlaze B2](https://www.backblaze.com/docs/cloud-storage-get-started-with-the-ui)  
-  - [Enable BackBlaze B2](https://www.backblaze.com/docs/cloud-storage-enable-backblaze-b2)  
-
-- **MinIO**  
-  - Self-hosted, deployable on Kubernetes or bare metal  
-  - [Installation Guide](https://docs.min.io/community/minio-object-store/operations/deployments/installation.html)  
+Aquanode handles storage automatically — no external storage setup needed.
 
 ---
 
-## Next Steps
+## Create a Backup
 
-[Checkout Full Guide on Snapshotting a VM](../backups/snapshot-walkthrough)
+If you have made progress in your workspace or want to preserve a known state, you can create a backup.
+
+![example-backup](/snapshots/example_backup.png)
+
+### Automated Snapshots
+
+- Enter the **absolute path** of the directory you want to save.
+- Click **Start Automated** to enable recurring snapshots.
+
+![create-backups](/snapshots/create_backups.png)
+
+### Manual Snapshots
+
+Once automated snapshots are enabled, you can also take a manual snapshot at any time:
+
+- Click **Take Snapshot**.
+- A snapshot of the current state will be saved immediately.
+
+![manual-snapshot](/snapshots/snapshot_mannual.png)
+
+> **Recommendation:** Always take a manual snapshot before shutting down an instance.
+
+### Backup History
+
+You can view the history of ongoing backups for each deployment:
+
+![backup-history-running](/snapshots/backup_history_running.png)
+
+Both **automated** and **manual** snapshots are incremental — efficient in speed and storage usage.
+
+---
+
+## Restore a Backup
+
+You can restore to any saved backup — on any GPU, not just the one it was created on.
+
+![restore-backup](/snapshots/restore_backups.png)
+
+### Select a Backup
+
+Choose the snapshot you want to restore:
+
+![chose-backup](/snapshots/chose_backup.png)
+
+### Restored VM
+
+Once complete, your VM will be reverted to the chosen state:
+
+![restored-vm](/snapshots/restored_vm.png)
+

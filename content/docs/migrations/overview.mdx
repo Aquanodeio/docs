@@ -1,0 +1,49 @@
+---
+title: Migrations
+description: Migrate your GPU workload to a different provider or GPU type without losing your setup.
+---
+
+Migrations in Aquanode let you move a running workload from one GPU or provider to another. Your environment and data are preserved through the process using Aquanode's built-in storage.
+
+---
+
+## How It Works
+
+1. **Take a snapshot** of your current VM (see [Backups](/docs/cloud-features/workspace-backup)).
+2. **Launch a new VM** on your target provider or GPU type.
+3. **Restore the snapshot** on the new VM.
+
+Your environment will be available on the new GPU exactly as you left it.
+
+---
+
+## VM Deployment Template
+
+![vm-template](/snapshots/vm_temp.png)
+
+When deploying a new VM for migration, you can select an existing snapshot configuration to restore from.
+
+---
+
+**Select Aquanode-storage for backup and metrics activation**
+
+![select-aquanode-storage](/snapshots/aquanode-storage.png)
+
+---
+
+## Select a Snapshot to Restore
+
+Choose the snapshot from your source VM:
+
+![chose-backup](/snapshots/chose_backup.png)
+
+### Restored VM
+
+Once the restore process completes, your VM will be running on the new GPU:
+
+![restored-vm](/snapshots/restored_vm.png)
+
+---
+
+**Your environment has been restored successfully 🎉  
+You are ready to continue working from your chosen Backup.**
