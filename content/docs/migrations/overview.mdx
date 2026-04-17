@@ -33,17 +33,14 @@ When deploying a new VM for migration, you can select an existing snapshot confi
 
 ## Select a Snapshot to Restore
 
-Choose the snapshot from your source VM:
+On the new VM, use the **Restore Deployment** panel to choose the source deployment you want to migrate from. The dropdown shows available deployments along with their IDs and saved paths, so you can select the correct backup source.
 
-![chose-backup](/snapshots/chose_backup.png)
+![restore-deployment](/snapshots/new_restore_backup.png)
 
 ### Restored VM
 
-Once the restore process completes, your VM will be running on the new GPU:
-
-![restored-vm](/snapshots/restored_vm.png)
+Once the restore completes, the new VM comes up with the same saved state as the original deployment. This is the final step in migrating your workload to a different GPU or provider.
 
 ---
 
-**Your environment has been restored successfully 🎉  
-You are ready to continue working from your chosen Backup.**
+**Your environment has been restored successfully. You are ready to continue working from the migrated deployment.**
