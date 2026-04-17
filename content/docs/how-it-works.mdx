@@ -3,34 +3,59 @@ title: How It Works
 description: An overview of the core services powering the Aquanode platform.
 ---
 
-Aquanode is built on three internal services that work together to provide a seamless GPU cloud experience.
+Aquanode runs on a backend designed to manage the full deployment lifecycle between the user and the provider.
 
 ---
 
-## Mjolnir — Unified GPU API
+## Backend
 
-Mjolnir is the central API layer that sits between Aquanode and all GPU providers. It exposes a single, unified API regardless of which provider is powering your deployment.
+When a user requests a GPU, Aquanode acquires it on their behalf and then manages the deployment from provisioning to shutdown.
 
-- Supports **web2 datacenters**, **web3 networks**, and **community-based providers**
-- Abstracts away provider-specific APIs, pricing models, and access rules
-- Makes it straightforward to add new providers without changing how the rest of the platform works
+That flow is complex because each provider has different APIs, request formats, and lifecycle behavior. To handle this cleanly, the backend is split into two parts:
 
----
+- An **orchestrator** that owns the deployment lifecycle
+- **Mjolnir**, which translates standard backend requests into provider-specific actions
 
-## Themis — Reconciliation Service
-
-Themis ensures consistency between Aquanode's internal state and what Mjolnir reports from providers.
-
-- Continuously reconciles your account balance and resource usage across providers
-- Catches and corrects any drift between the Aquanode database and live provider data
-- Keeps billing accurate and deployments in sync
+Once a VM is created, the orchestrator connects it to **Ogre**, our VM management daemon, to enable monitoring, backups, and the rest of the operational layer. From there, the backend keeps the deployment healthy with regular checks until the user closes it.
 
 ---
 
-## Ogre — Worker Service
+## Mjolnir - Unified GPU API
 
-Ogre is the background worker responsible for the operational health of your deployments.
+Mjolnir started as a request-forwarding proxy, but it has grown into the provider-facing execution layer for Aquanode. It receives a standard request from the orchestrator, converts it into the provider-specific format, and sends it to the selected provider.
 
-- Monitors **GPU health** and **resource access** across active VMs
-- Collects and reports **metrics** for your deployments in real time
-- Powers platform features like **backups** (automated and manual snapshots) and **migrations** (moving workloads across GPUs)
+- Converts standard backend requests into provider-specific provisioning calls
+- Handles integration across web2 datacenters, web3 networks, and community providers
+- Returns control to the orchestrator once the requested VM is provisioned
+
+Mjolnir is what lets the backend scale across providers without exposing that complexity to the rest of the system.
+
+---
+
+## Themis - Reconciliation Service
+
+After provisioning, Themis makes sure Aquanode's internal state stays aligned with what providers report through Mjolnir.
+
+- Reconciles your account balance and resource usage against live provider data from Mjolnir
+- Catches and corrects any drift before it affects billing or deployment state
+- Ensures what you see on the Aquanode console always reflects reality
+- Handles inconsistencies caused due to provider outage
+
+Themis keeps the system financially and operationally consistent as deployments change over time.
+
+---
+
+## Ogre - Worker Service
+
+Once the orchestrator establishes a connection to the VM, Ogre takes over the machine-level operations needed to keep it usable.
+
+- Continuously monitors **GPU health** and **resource access** across active VMs
+- Collects and surfaces **real-time metrics** for your deployments
+- Runs the underlying machinery for **backups** (automated and manual snapshots) and **migrations** (moving workloads across GPUs or providers)
+- It is designed to be well-guarded, secure, and safe.
+
+Ogre is the daemon that enables external control over the VM after it has been provisioned. 
+
+---
+
+Together, the flow is straightforward: the orchestrator decides, Mjolnir provisions, Themis reconciles, and Ogre operates. That split is what allows Aquanode to support many providers while keeping the user-facing experience consistent.

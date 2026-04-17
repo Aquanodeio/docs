@@ -13,33 +13,22 @@ Aquanode handles storage automatically — no external storage setup needed.
 
 If you have made progress in your workspace or want to preserve a known state, you can create a backup.
 
-![example-backup](/snapshots/example_backup.png)
+![snapshot-ui](/snapshots/new_snapshot.png)
 
-### Automated Snapshots
+### Snapshots
 
-- Enter the **absolute path** of the directory you want to save.
+- Enter the **absolute path** of the directory you want to save and a time interval (in minutes).
 - Click **Start Automated** to enable recurring snapshots.
-
-![create-backups](/snapshots/create_backups.png)
-
-### Manual Snapshots
-
-Once automated snapshots are enabled, you can also take a manual snapshot at any time:
-
-- Click **Take Snapshot**.
-- A snapshot of the current state will be saved immediately.
-
-![manual-snapshot](/snapshots/snapshot_mannual.png)
+- Once active, it appears under **Active Automated Backups** with its status and interval.
+- You can also click **Take Snapshot** at any time to capture the current state immediately.
 
 > **Recommendation:** Always take a manual snapshot before shutting down an instance.
 
 ### Backup History
 
-You can view the history of ongoing backups for each deployment:
+The **Backup History** table below the active backups shows every snapshot taken — including the path, date, size, and whether it was **Automated** or **Manual**.
 
-![backup-history-running](/snapshots/backup_history_running.png)
-
-Both **automated** and **manual** snapshots are incremental — efficient in speed and storage usage.
+Both automated and manual snapshots are incremental — efficient in speed and storage usage.
 
 ---
 
@@ -47,13 +36,11 @@ Both **automated** and **manual** snapshots are incremental — efficient in spe
 
 You can restore to any saved backup — on any GPU, not just the one it was created on.
 
-![restore-backup](/snapshots/restore_backups.png)
+![restore-backup-ui](/snapshots/new_restore_backup.png)
 
 ### Select a Backup
 
-Choose the snapshot you want to restore:
-
-![chose-backup](/snapshots/chose_backup.png)
+Use the **Restore Deployment** panel to choose the deployment you want to restore from. The dropdown lists available deployments with their IDs and saved paths, so you can pick the correct backup source before restoring.
 
 ### Restored VM
 

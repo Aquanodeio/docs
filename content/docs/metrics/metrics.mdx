@@ -1,0 +1,31 @@
+---
+title: Metrics
+description: Monitor GPU utilization, memory usage, and temperature in real-time for your deployments.
+---
+
+Aquanode provides live metrics for every deployment with metrics enabled. You can track GPU utilization, memory, temperature, and CPU at a glance.
+
+---
+
+## Enabling Metrics
+
+When launching a new VM, select **Aquanode's Storage** under **Storage Configuration**, then toggle on **Enable Metrics**.
+
+![activate-metrics](/metrics/activate_metric.png)
+
+Metrics collection starts automatically once the VM is running.
+
+---
+
+## Viewing Metrics
+
+Open any running deployment to see its metrics dashboard. The top row shows summary stats across all GPUs:
+
+- **GPU Devices** — number of GPUs attached
+- **Avg GPU Utilization** — average compute usage across all GPUs
+- **Avg Temperature** — average temperature across all GPUs
+- **Avg CPU Utilization** — host CPU usage
+
+Below that, each GPU gets its own panel with utilization, memory usage, and temperature — plus live charts showing usage over time.
+
+![metrics-view](/metrics/metrics_view.png)

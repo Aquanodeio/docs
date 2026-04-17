@@ -13,7 +13,8 @@
     "---Documentation---",
     "cloud-features",
     "virtual-machines",
-    "migrations",
+    "backups",
+    "metrics",
     "---Support---",
     "support/faq",
     "support/troubleshooting"
