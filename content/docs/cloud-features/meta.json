@@ -1,8 +1,7 @@
 {
-  "title": "Cloud Features",
+  "title": "GPUs & Pricing",
   "pages": [
     "gpu-types",
-    "pricing",
-    "workspace-backup"
+    "pricing"
   ]
 }
