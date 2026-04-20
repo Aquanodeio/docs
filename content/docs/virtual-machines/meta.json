@@ -2,6 +2,7 @@
   "title": "Virtual Machines",
   "pages": [
     "instance-types",
-    "running-vm"
+    "running-vm",
+    "startup-scripts"
   ]
 }
