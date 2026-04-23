@@ -1,0 +1,99 @@
+---
+title: "Startup Scripts"
+description: "Create reusable startup scripts to automate your VM initialization — install packages, configure your environment, and start services automatically on every boot."
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Startup scripts run automatically when a VM boots, letting you fully automate environment setup without manual intervention after deployment.
+
+![Startup Scripts page showing saved scripts and the option to create a new one](/virtual-machine/add-startup-script.png)
+
+## What you can do with startup scripts
+
+- Install system packages and Python dependencies
+- Clone and configure your codebase
+- Set environment variables and config files
+- Start background services or APIs
+- Pre-download models or datasets
+
+<Callout type="info" title="Scripts run as root">
+Startup scripts execute as root on first boot. You can use `sudo` freely, or drop privileges with `su - username` when needed.
+</Callout>
+
+<Steps>
+<Step>
+
+## Create a startup script
+
+1. Go to [Startup Scripts](https://console.aquanode.io/workloads/startup-scripts) in your account
+2. Click **+ New Script**
+3. Give your script a name (e.g. `ml-setup`, `api-server`)
+4. Write your shell script in the editor
+5. Click **Save**
+
+Your scripts are reusable — create them once and attach them to any number of VMs.
+
+</Step>
+<Step>
+
+## Attach a script to a VM
+
+When deploying a VM from the [Marketplace](https://console.aquanode.io/marketplace):
+
+1. Complete your GPU and resource selection
+2. In the deployment settings, find the **Startup script** dropdown
+3. Select the script you want to run on boot
+4. Deploy — the script will execute automatically once the VM is ready
+
+</Step>
+</Steps>
+
+## Example scripts
+
+### Install ML dependencies
+
+```bash
+#!/bin/bash
+set -e
+
+apt update && apt upgrade -y
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install transformers datasets accelerate
+```
+
+### Clone a repo and install requirements
+
+```bash
+#!/bin/bash
+set -e
+
+cd /home/user
+git clone https://github.com/your-org/your-repo.git
+cd your-repo
+pip install -r requirements.txt
+```
+
+### Start an API server on boot
+
+```bash
+#!/bin/bash
+set -e
+
+cd /home/user/app
+pip install -r requirements.txt
+nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
+```
+
+## Managing your scripts
+
+From the [Startup Scripts](https://console.aquanode.io/workloads/startup-scripts) page you can:
+
+- **View** all saved scripts and how many instances use each one
+- **Edit** a script at any time (changes apply to future deployments)
+- **Delete** scripts that are no longer needed
+
+<Callout type="info" title="Script updates don't affect running VMs">
+Editing a script only affects new deployments. Running VMs will not re-execute the script.
+</Callout>

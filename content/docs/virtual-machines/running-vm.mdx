@@ -57,22 +57,22 @@ Start by selecting the right hardware for your workload:
 
 ## Set up access credentials
 
-Configure secure access to your VM:
+Configure secure access to your VM.
 
-1. **SSH Key Setup** (Recommended):
-   - Generate an SSH key pair if you don't have one:
-     ```bash
-     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
-     ```
-   - Copy your public key:
-     ```bash
-     cat ~/.ssh/id_rsa.pub
-     ```
-   - Paste the public key in the **SSH Public Key** field
+### SSH Keys
 
-2. **Alternative Access Methods**:
-   - **Password**: Set a secure password (less secure than SSH)
-   - **Key File**: Upload your existing SSH public key file
+Manage your SSH keys from the [SSH Keys](https://console.aquanode.io/ssh-keys) page. You can add multiple keys and see which instances each key is attached to.
+
+![SSH Keys management page showing saved keys and instance attachments](/virtual-machine/ssh-key-add.png)
+
+1. Go to **SSH Keys** in your account settings and click **+ Add SSH Key**
+2. Paste your public key — generate one locally if needed:
+   ```bash
+   ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+   cat ~/.ssh/id_rsa.pub
+   ```
+3. Give the key a name and save it
+4. Select the saved key when deploying a VM
 
 <Callout type="info">
 **Security Best Practice**: Always use SSH keys instead of passwords for better security and convenience.
@@ -93,7 +93,7 @@ Launch your virtual machine:
 
 2. **Optional**: Set deployment settings:
    - **Auto-shutdown**: Automatically stop VM after inactivity
-   - **Startup script**: Run commands on VM boot
+   - **Startup script**: Select a saved startup script to run on boot
    - **Environment variables**: Set custom variables
 
 3. Click **Deploy VM**
@@ -196,6 +196,23 @@ sudo apt-get install -y nodejs
 </Steps>
 
 ## Managing your VM
+
+### Startup Scripts
+
+Startup scripts let you automate workload initialization — install packages, clone repos, or configure your environment automatically every time a VM boots.
+
+![Startup Scripts page showing empty state with Create First Script button](/virtual-machine/add-startup-script.png)
+
+1. Go to [Startup Scripts](https://console.aquanode.io/workloads/startup-scripts) in your account settings
+2. Click **+ New Script** (or **Create First Script** if you have none yet)
+3. Write your shell script, give it a name, and save it
+4. Select the script during VM deployment under **Startup script**
+
+The script runs as root on first boot, so you can use it to:
+- Install system packages (`apt install`, `pip install`)
+- Clone and set up your codebase
+- Configure environment variables or services
+- Start background processes
 
 ### Monitoring resources
 
