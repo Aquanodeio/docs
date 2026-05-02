@@ -1,0 +1,129 @@
+---
+title: Ogre Setup
+description: Download and run the Ogre daemon on your VM to unlock the full Aquanode toolchain.
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Ogre is the lightweight daemon that runs on every Aquanode VM. It exposes a local REST API used by the platform to manage app sessions, storage integrations, snapshots, metrics, and more.
+
+---
+
+## Download
+
+Prebuilt binaries for Linux x86_64, are published to GitHub Releases:
+
+[**github.com/Aquanodeio/releases/releases**](https://github.com/Aquanodeio/releases/releases)
+
+<Callout type="info">
+  **If you are just getting started, always use the latest release.** The latest tag is shown at the top of the releases page.
+</Callout>
+
+Download the tarball for your platform. For Linux x86_64:
+
+```bash
+wget https://github.com/Aquanodeio/releases/releases/latest/download/releases_Linux_x86_64.tar.gz -O /tmp/releases.tar.gz
+```
+
+---
+
+## Install
+
+Extract the binary to `/usr/local/bin` and make it executable:
+
+```bash
+tar -xzf /tmp/releases.tar.gz -C /usr/local/bin --overwrite
+chmod +x /usr/local/bin/ogre
+```
+
+Verify the installation:
+
+```bash
+ogre --version
+```
+
+---
+
+## Run
+
+Start Ogre as a background process. A `JWT_SECRET` environment variable is required — all API requests must include a valid JWT signed with this secret.
+
+```bash
+nohup env JWT_SECRET="your-secret-here" /usr/local/bin/ogre \
+  -clean \
+  -dcgm \
+  -bzip2 \
+  -restic \
+  > /var/log/ogre.log 2>&1 &
+```
+
+Logs are written to `/var/log/ogre.log`. Ogre listens on port **3000** by default.
+
+### Flags
+
+| Flag | Description |
+|------|-------------|
+| `-clean` | Clears stale session state from a previous run on startup |
+| `-dcgm` | Enables NVIDIA DCGM GPU metrics collection |
+| `-bzip2` | Uses bzip2 compression for snapshots (instead of gzip) |
+| `-restic` | Initialises Restic repositories for snapshot management |
+
+---
+
+## Firewall
+
+Open the ports Ogre uses:
+
+```bash
+ufw allow 3000   # Ogre API
+ufw allow 3001   # Optional secondary port
+```
+
+---
+
+## Full Setup Script
+
+The complete automated setup used by Aquanode during VM provisioning:
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+echo "Starting Ogre setup..."
+
+# Clean old tarball
+rm -f /tmp/releases.tar.gz || true
+
+# Download latest release
+wget -q https://github.com/Aquanodeio/releases/releases/download/v0.0.9-dev/releases_Linux_x86_64.tar.gz \
+  -O /tmp/releases.tar.gz
+
+# Extract into /usr/local/bin
+tar -xzf /tmp/releases.tar.gz -C /usr/local/bin --overwrite
+
+# Make ogre executable
+chmod +x /usr/local/bin/ogre
+
+# Start Ogre in background
+nohup env JWT_SECRET="your-secret-here" /usr/local/bin/ogre \
+  -clean -dcgm -bzip2 -restic \
+  > /var/log/ogre.log 2>&1 &
+
+echo "Ogre started. Logs: /var/log/ogre.log"
+
+# Open firewall ports
+ufw allow 3000
+ufw allow 3001
+ufw disable
+```
+
+<Callout type="warn">
+  Replace `JWT_SECRET` with a strong random secret. This value is used to verify every API request to the Ogre daemon.
+</Callout>
+
+---
+
+## Next Steps
+
+- [**Ogre API Reference**](/docs/ogre/api) — Explore all endpoints exposed by the daemon
