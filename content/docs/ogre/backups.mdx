@@ -1,0 +1,251 @@
+---
+title: Backups
+description: Continuously snapshot your VM workspace to S3 using Ogre's periodic backup system.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
+
+Ogre's backup system takes periodic snapshots of your workspace and uploads them to S3. Once set up, snapshots run automatically at a fixed interval. A one-time manual snapshot can also be taken at any point.
+
+<Callout type="info">
+  All snapshot operations require S3 credentials to be set first. Snapshots are stored under the `snapshots/<backup_id>/` prefix in your configured bucket.
+</Callout>
+
+---
+
+<Steps>
+
+<Step>
+## Set S3 Credentials
+
+Tell Ogre which S3 bucket to use. All snapshot uploads and downloads go through this configuration.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "s3",
+    "config": {
+      "access_key": "YOUR_ACCESS_KEY",
+      "secret_key": "YOUR_SECRET_KEY",
+      "aws_region": "us-east-1",
+      "bucket_name": "my-backups"
+    }
+  }'
+```
+
+For Backblaze B2 or other S3-compatible providers, add `b2_endpoint`:
+
+```json
+{
+  "service_type": "s3",
+  "config": {
+    "access_key": "YOUR_KEY_ID",
+    "secret_key": "YOUR_APP_KEY",
+    "aws_region": "us-west-004",
+    "bucket_name": "my-backups",
+    "b2_endpoint": "https://s3.us-west-004.backblazeb2.com"
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Credentials set successfully",
+  "service_type": "s3",
+  "success": true
+}
+```
+
+Then set the Restic repository password. Restic uses this to encrypt the repository — **use the same password on every VM that accesses the same backup**.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "restic",
+    "config": {
+      "PASSWORD": "your-restic-password"
+    }
+  }'
+```
+
+<Callout type="warn">
+  The Restic password cannot be recovered. If you lose it, the repository is unreadable. Store it somewhere safe and use the same value on every VM that accesses this backup.
+</Callout>
+</Step>
+
+<Step>
+## Start Periodic Snapshots
+
+Start the automatic backup schedule. Ogre will snapshot your workspace at the specified interval and upload each snapshot to S3. Subsequent snapshots after the first are **incremental** — only changed files are uploaded.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/start_snapshot \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "backup_id": "my-project",
+    "workspace_dir": "/app/code",
+    "interval_minutes": 30,
+    "use_restic": true
+  }'
+```
+
+**Request fields**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `backup_id` | string | Yes | Identifier that groups all snapshots for this backup. Keep it consistent across sessions |
+| `workspace_dir` | string | Yes | Absolute path to the directory to snapshot |
+| `interval_minutes` | int | Yes | How often to take a snapshot. Keep it at least 15 minutes |
+| `use_restic` | bool | Yes | Always pass `true` |
+| `webhook_url` | string | No | URL to POST to after each snapshot completes |
+| `excludes` | string[] | No | Path patterns to exclude from snapshots |
+| `tags` | string[] | No | Tags to attach to each snapshot |
+
+**Response**
+
+```json
+{
+  "message": "Periodic snapshots started",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "backup_id": "my-project",
+  "interval_minutes": 30
+}
+```
+
+<Callout type="warn">
+  Save the `snapshot_id` returned here. You'll need it to stop the schedule or check its status.
+</Callout>
+</Step>
+
+<Step>
+## Take a Manual Snapshot (Optional)
+
+You can take a one-off snapshot at any time, independently of the periodic schedule.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/create \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "backup_id": "my-project",
+    "workspace_dir": "/app/code",
+    "use_restic": true
+  }'
+```
+
+**Request fields**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `backup_id` | string | Yes | Must match the same `backup_id` used in the periodic schedule to group snapshots together |
+| `workspace_dir` | string | `cwd` | Directory to snapshot |
+| `use_restic` | bool | Yes | Always pass `true` |
+| `excludes` | string[] | No | Path patterns to exclude |
+| `tags` | string[] | No | Tags to attach to this snapshot |
+
+**Response**
+
+```json
+{
+  "message": "Snapshot created successfully",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "snapshot_name": "mannual_snapshot-my-project-a1b2c3d4e5f6",
+  "workspace_dir": "/app/code",
+  "files_new": 142,
+  "files_changed": 3,
+  "files_unmodified": 1089,
+  "data_added_packed": 2097152
+}
+```
+</Step>
+
+<Step>
+## Stop Periodic Snapshots
+
+When you're done, stop the schedule. The snapshots already taken remain in S3.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/stop_snapshot \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "snapshot_id": "a1b2c3d4e5f6a7b8c9d0"
+  }'
+```
+
+**Response**
+
+```json
+{
+  "message": "Periodic snapshots stopped",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0"
+}
+```
+</Step>
+
+</Steps>
+
+---
+
+## Checking Snapshot Status
+
+Check whether the periodic schedule is still running:
+
+```bash
+curl -X GET http://localhost:3000/api/v1/snapshots/status \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{ "snapshot_id": "a1b2c3d4e5f6a7b8c9d0" }'
+```
+
+**Response**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "is_running": true,
+  "use_restic": false
+}
+```
+
+---
+
+## Listing Stored Snapshots
+
+View all snapshots stored in S3 for a given backup:
+
+```bash
+curl "http://localhost:3000/api/v1/snapshots/list?backup_id=my-project" \
+  -H "Authorization: Bearer <token>"
+```
+
+**Response**
+
+```json
+{
+  "storage_type": "s3",
+  "snapshots": [
+    {
+      "key": "snapshots/my-project/a1b2c3d4.tar.gz",
+      "size": 52428800,
+      "last_modified": "2026-05-02T10:00:00Z",
+      "etag": "\"abc123\""
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+## Next Steps
+
+- [**Migrations**](/docs/ogre/migrations) — Restore a snapshot onto a new VM to move your workload

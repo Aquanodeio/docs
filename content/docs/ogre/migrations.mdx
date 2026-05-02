@@ -1,0 +1,272 @@
+---
+title: Migrations
+description: Move a running workload from one VM to another by snapshotting and restoring with Ogre.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
+
+A migration moves your workspace from a source VM to a target VM. The process is:
+
+1. Set S3 credentials on the **source VM**
+2. Snapshot the workspace and upload it to S3
+3. Set the same S3 credentials on the **target VM**
+4. Restore the snapshot from S3 to the target workspace
+
+<Callout type="info">
+  Both VMs must use the same S3 bucket and `backup_id`. The target VM retrieves the snapshot by its S3 key or by `snapshot_id` + `backup_id`.
+</Callout>
+
+---
+
+## On the Source VM
+
+<Steps>
+
+<Step>
+## Set S3 Credentials
+
+Configure the S3 bucket that will hold the migration snapshot.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "s3",
+    "config": {
+      "access_key": "YOUR_ACCESS_KEY",
+      "secret_key": "YOUR_SECRET_KEY",
+      "aws_region": "us-east-1",
+      "bucket_name": "my-backups"
+    }
+  }'
+```
+
+**Response**
+
+```json
+{
+  "message": "Credentials set successfully",
+  "service_type": "s3",
+  "success": true
+}
+```
+
+Then set the Restic repository password:
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "restic",
+    "config": {
+      "PASSWORD": "your-restic-password"
+    }
+  }'
+```
+</Step>
+
+<Step>
+## (Optional) Start Periodic Snapshots
+
+If your workload is long-running and you want to keep near-live checkpoints before the final migration snapshot, start a periodic schedule. This also warms up the incremental manifest so the final snapshot is fast.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/start_snapshot \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "backup_id": "my-migration",
+    "workspace_dir": "/app/code",
+    "interval_minutes": 15,
+    "use_restic": true
+  }'
+```
+
+Save the returned `snapshot_id` — you'll need it to stop the schedule.
+
+<Callout type="warn">
+  Skip this step if you just want a single one-off snapshot before migrating.
+</Callout>
+</Step>
+
+<Step>
+## Take the Final Snapshot
+
+Take a snapshot immediately before the migration. This is the state that will be restored on the target VM.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/create \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "backup_id": "my-migration",
+    "workspace_dir": "/app/code",
+    "use_restic": true
+  }'
+```
+
+**Response**
+
+```json
+{
+  "message": "Snapshot created successfully",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "snapshot_name": "mannual_snapshot-my-migration-a1b2c3d4e5f6",
+  "workspace_dir": "/app/code",
+  "files_new": 142,
+  "files_changed": 3,
+  "data_added_packed": 2097152
+}
+```
+
+Note the `snapshot_id`. You'll use it on the target VM.
+</Step>
+
+<Step>
+## Stop Periodic Snapshots (If Running)
+
+If you started the periodic schedule in Step 2, stop it now.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/stop_snapshot \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "snapshot_id": "<snapshot_id from start_snapshot>"
+  }'
+```
+
+**Response**
+
+```json
+{
+  "message": "Periodic snapshots stopped",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0"
+}
+```
+</Step>
+
+</Steps>
+
+---
+
+## On the Target VM
+
+<Steps>
+
+<Step>
+## Set S3 Credentials
+
+Configure the **same** S3 bucket and credentials used on the source VM.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "s3",
+    "config": {
+      "access_key": "YOUR_ACCESS_KEY",
+      "secret_key": "YOUR_SECRET_KEY",
+      "aws_region": "us-east-1",
+      "bucket_name": "my-backups"
+    }
+  }'
+```
+
+Then set the Restic password — **must be identical to the one used on the source VM**:
+
+```bash
+curl -X POST http://localhost:3000/api/v1/credentials/set \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_type": "restic",
+    "config": {
+      "PASSWORD": "your-restic-password"
+    }
+  }'
+```
+</Step>
+
+<Step>
+## Restore the Snapshot
+
+Restore the snapshot from S3 into the target directory. Provide the `snapshot_id` and `backup_id` from the source VM — Ogre constructs the S3 key automatically.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/restore \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+    "backup_id": "my-migration",
+    "target_dir": "/app/code",
+    "use_restic": true
+  }'
+```
+
+Alternatively, if you know the exact S3 key, pass it directly:
+
+```bash
+curl -X POST http://localhost:3000/api/v1/snapshots/restore \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "s3_key": "snapshots/my-migration/a1b2c3d4.tar.gz",
+    "target_dir": "/app/code",
+    "use_restic": true
+  }'
+```
+
+**Request fields**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `snapshot_id` | string | One of | Snapshot ID from the source VM |
+| `s3_key` | string | One of | Direct S3 object key (overrides `snapshot_id` + `backup_id`) |
+| `backup_id` | string | With `snapshot_id` | Required when using `snapshot_id` to construct the S3 key |
+| `target_dir` | string | No | Directory to restore into. Defaults to `cwd` |
+| `use_restic` | bool | Yes | Always pass `true` |
+| `chain_restore` | bool | No | Restore the full chronological chain of incremental snapshots |
+
+**Response**
+
+```json
+{
+  "message": "Snapshot restored successfully",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "s3_key": "snapshots/my-migration/a1b2c3d4.tar.gz",
+  "target_dir": "/app/code",
+  "use_restic": false
+}
+```
+</Step>
+
+</Steps>
+
+---
+
+## Verifying the Restore
+
+List the available snapshots to confirm the right one was used:
+
+```bash
+curl "http://localhost:3000/api/v1/snapshots/list?backup_id=my-migration" \
+  -H "Authorization: Bearer <token>"
+```
+
+Then verify the restored files are present at `target_dir` before starting your workload.
+
+<Callout type="info">
+  Restic supports restoring to a specific point in time — pass `restore_to_time` as a Unix timestamp to restore the most recent snapshot before that moment.
+</Callout>
+
+---
+
+## Related
+
+- [**Backups**](/docs/ogre/backups) — Set up periodic snapshots on a running VM

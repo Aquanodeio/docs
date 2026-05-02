@@ -1,0 +1,9 @@
+{
+  "title": "Ogre",
+  "pages": [
+    "setup",
+    "api",
+    "backups",
+    "migrations"
+  ]
+}

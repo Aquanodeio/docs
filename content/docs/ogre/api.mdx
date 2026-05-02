@@ -1,0 +1,957 @@
+---
+title: Ogre API Reference
+description: Complete reference for all HTTP endpoints exposed by the Ogre daemon running on each Aquanode VM.
+---
+
+Ogre is the daemon that runs on every Aquanode VM. It exposes a REST API used by the platform to manage app sessions, provision the VM, handle storage integrations, take snapshots, and collect metrics.
+
+All endpoints are prefixed with `/api/v1` and require a valid JWT token in the `Authorization: Bearer <token>` header.
+
+---
+
+## Health
+
+### `GET /api/v1/healthz`
+
+Returns the health status of the Ogre daemon along with system resource information.
+
+**Response**
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-04-24T12:00:00Z",
+  "service": "ogre-daemon",
+  "version": "1.0.0",
+  "system": {
+    "cpu_percent": 12.5,
+    "memory_used_mb": 2048,
+    "memory_total_mb": 16384,
+    "gpu_available": true,
+    "gpu_count": 1
+  }
+}
+```
+
+---
+
+## Apps
+
+Manage application sessions on the VM. A session corresponds to a running app cloned from a Git repository.
+
+### `POST /api/v1/apps/run`
+
+Clones a repository, detects or resolves the framework, assigns a port, and starts the application process. Integrations (S3, Lighthouse) are initialized per-session if enabled.
+
+**Request Body**
+
+```json
+{
+  "repo": "https://github.com/user/repo",
+  "token": "optional-git-token",
+  "framework": "python",
+  "port": "8080",
+  "branch": "main",
+  "env": {
+    "MY_VAR": "value"
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `repo` | string | Yes | Git repository URL to clone |
+| `token` | string | No | Git authentication token |
+| `framework` | string | No | Framework name (e.g. `python`, `node`). Auto-detected if omitted |
+| `port` | string | No | Preferred port. A free port is always assigned automatically |
+| `branch` | string | No | Branch to checkout |
+| `env` | object | No | Additional environment variables to inject |
+
+**Response**
+
+```json
+{
+  "status": "started",
+  "session_id": "abc123",
+  "ports": 8080,
+  "stream_url": "$hostname/logs/abc123",
+  "s3_log_key": "logs/abc123/session.log"
+}
+```
+
+---
+
+### `DELETE /api/v1/apps/{id}`
+
+Terminates a running app session, kills its process, and cleans up session state.
+
+**Path Parameter**: `id` — session ID returned by `/apps/run`
+
+**Response**
+
+```json
+{
+  "status": "closed",
+  "session_id": "abc123",
+  "timestamp": "2026-04-24T12:00:00Z"
+}
+```
+
+---
+
+### `GET /api/v1/apps/{id}/logs`
+
+Streams or retrieves logs for a session.
+
+**Path Parameter**: `id` — session ID
+
+**Query Parameters**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `json` | `1` | Return buffered logs as JSON instead of an SSE stream |
+| `filter` | string | Filter by log type: `setup`, `app`, `divider`, or `all` |
+
+**SSE Stream** (default): Sends newline-delimited log lines as Server-Sent Events. Connect with `EventSource` or `curl`.
+
+**JSON Snapshot** (`?json=1`):
+
+```json
+{
+  "session_id": "abc123",
+  "count": 42,
+  "lines": ["[SETUP] Installing deps...", "[APP] Server started on :8080"],
+  "filter": "app"
+}
+```
+
+---
+
+### `GET /api/v1/apps/{id}/health`
+
+Returns the health status of a running session.
+
+**Path Parameter**: `id` — session ID
+
+**Response**
+
+```json
+{
+  "session_id": "abc123",
+  "healthy": true,
+  "timestamp": "2026-04-24T12:00:00Z"
+}
+```
+
+---
+
+## Virtual Machines
+
+Endpoints for provisioning, inspecting, and managing the VM itself.
+
+### `POST /api/v1/vms/provision`
+
+Provisions the VM by installing SSH, configuring the firewall, and optionally running a setup script. Must supply either an SSH password or an SSH public key.
+
+**Request Body**
+
+```json
+{
+  "ssh_password": "optional-password",
+  "ssh_key": "ssh-rsa AAAA...",
+  "setup_script": "#!/bin/bash\napt install -y htop",
+  "firewall_rules": ["80/tcp", "443/tcp"]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `ssh_password` | string | One of | Root password for SSH login |
+| `ssh_key` | string | One of | SSH public key added to `authorized_keys` |
+| `setup_script` | string | No | Bash script to run during provisioning (must start with `#!/`) |
+| `firewall_rules` | array | No | UFW rules to allow. Defaults to ports 22 and 3000 |
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "uptime": "250ms",
+  "ssh": "enabled",
+  "firewall": "configured",
+  "monitor": "running on :3000",
+  "package_manager": "apt",
+  "ssh_command": "ssh root@10.0.0.1 -p 22"
+}
+```
+
+---
+
+### `GET /api/v1/vms/health`
+
+Returns whether the VM is healthy and its uptime since the last provision call.
+
+**Response**
+
+```json
+{
+  "vm_healthy": true,
+  "uptime": "1h23m",
+  "status": "running",
+  "time": "2026-04-24T12:00:00Z"
+}
+```
+
+---
+
+### `GET /api/v1/vms/info`
+
+Returns basic VM runtime info.
+
+**Response**
+
+```json
+{
+  "status": "running",
+  "started_at": "2026-04-24T10:00:00Z",
+  "uptime": "2h0m"
+}
+```
+
+---
+
+### `GET /api/v1/vms/ls`
+
+Lists directory contents on the VM. Defaults to the current working directory.
+
+**Request Body** (optional)
+
+```json
+{
+  "path": "/app/code"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `path` | string | Absolute or relative path to list. Defaults to `cwd` |
+
+**Response**
+
+```json
+{
+  "current_directory": "/root",
+  "listing_directory": "/app/code",
+  "relative_path": "/app/code",
+  "items": [
+    {
+      "name": "main.py",
+      "type": "file",
+      "size": 1024,
+      "path": "/app/code/main.py",
+      "relative_path": "../app/code/main.py"
+    }
+  ],
+  "total_items": 1,
+  "directories": 0,
+  "files": 1
+}
+```
+
+---
+
+### `POST /api/v1/vms/mount-volumes`
+
+Discovers all block devices via `lsblk` and mounts any unformatted or unmounted partitions to `/mnt/<device>`. System partitions (`/`, `/boot`) are skipped automatically.
+
+**Request Body**: none required
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "volumes": [
+    {
+      "device": "/dev/sdb1",
+      "mount_point": "/mnt/sdb1",
+      "fs_type": "ext4",
+      "size": "100G",
+      "status": "mounted"
+    }
+  ],
+  "newly_mounted": 1,
+  "already_mounted": 0,
+  "errors": 0,
+  "total": 1
+}
+```
+
+Mount statuses: `mounted`, `already_mounted`, `skipped`, `error`.
+
+---
+
+## Integrations
+
+Integrations (S3, Lighthouse) attach to the daemon and are used by app sessions and snapshot/storage operations.
+
+### `POST /api/v1/integrations`
+
+Registers and enables one or more integrations from the request body. Returns the list of currently enabled integrations.
+
+**Request Body** (integration config, format depends on integration type — e.g. S3 credentials)
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "enabled_integrations": ["s3", "lighthouse"]
+}
+```
+
+---
+
+### `GET /api/v1/integrations`
+
+Returns all currently enabled integrations.
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "data": {
+    "enabled_integrations": ["s3"]
+  }
+}
+```
+
+---
+
+### `GET /api/v1/integrations/available`
+
+Returns all integrations that are registered and can be enabled.
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "data": {
+    "available_integrations": ["s3", "lighthouse"]
+  }
+}
+```
+
+---
+
+## Credentials
+
+Persists service credentials in the daemon's in-memory credential store. These credentials are used as a fallback by snapshots and other operations when no integration manager is in context.
+
+### `POST /api/v1/credentials/set`
+
+Stores credentials for a named service type (e.g. `s3`, `backend`, `download_token`).
+
+**Request Body**
+
+```json
+{
+  "service_type": "s3",
+  "config": {
+    "access_key": "AKIAIOSFODNN7EXAMPLE",
+    "secret_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+    "region": "us-east-1",
+    "bucket": "my-bucket"
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Credentials set successfully",
+  "service_type": "s3",
+  "success": true
+}
+```
+
+---
+
+### `GET /api/v1/credentials`
+
+Returns metadata (no secret values) about stored credentials for a service type.
+
+**Query Parameters**: `service_type` (required)
+
+**Response**
+
+```json
+{
+  "credential_info": {
+    "service_type": "s3",
+    "keys": ["access_key", "secret_key", "region", "bucket"],
+    "set_at": "2026-04-24T10:00:00Z"
+  },
+  "success": true
+}
+```
+
+---
+
+### `GET /api/v1/credentials/list`
+
+Lists all service types that have credentials stored.
+
+**Response**
+
+```json
+{
+  "services": ["s3", "download_token"],
+  "count": 2,
+  "success": true
+}
+```
+
+---
+
+### `DELETE /api/v1/credentials`
+
+Deletes credentials for a service type.
+
+**Query Parameters**: `service_type` (required)
+
+**Response**
+
+```json
+{
+  "message": "Credentials deleted successfully",
+  "service_type": "s3",
+  "success": true
+}
+```
+
+---
+
+## S3
+
+Object storage operations backed by an S3-compatible provider. All endpoints require the S3 integration to be enabled (via `/integrations` or `/credentials/set`).
+
+---
+
+### `POST /api/v1/s3/upload`
+
+Uploads a file to S3. Accepts `multipart/form-data`.
+
+**Form Fields**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `file` | file | File to upload |
+| `filename` | string | Override filename. Defaults to original name |
+| `compression_level` | int | 1–9 gzip compression. Defaults to 6 |
+
+**Response**
+
+```json
+{
+  "message": "File uploaded successfully",
+  "key": "uploads/myfile.gz",
+  "size": 20480,
+  "success": true
+}
+```
+
+---
+
+### `GET /api/v1/s3/list_bucket`
+
+Lists all buckets accessible with the configured credentials.
+
+**Response**
+
+```json
+{
+  "buckets": ["my-bucket", "backups"],
+  "total": 2
+}
+```
+
+---
+
+### `GET /api/v1/s3/list_objects`
+
+Lists objects in the configured bucket.
+
+**Response**
+
+```json
+{
+  "objects": [
+    {
+      "key": "snapshots/backup-id/snapshot.tar.gz",
+      "size": 104857600,
+      "last_modified": "2026-04-24T10:00:00Z",
+      "etag": "\"d41d8cd98f00b204e9800998ecf8427e\""
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+### `GET /api/v1/s3/download_file`
+
+Downloads a file from S3.
+
+**Query Parameters**: `key` (S3 object key), `dest` (local destination path)
+
+---
+
+### `DELETE /api/v1/s3/delete`
+
+Deletes an object from S3.
+
+**Query Parameters**: `key` (S3 object key)
+
+---
+
+### `POST /api/v1/s3/upload_workspace`
+
+Compresses the workspace directory into a `.tar.gz` archive and uploads it to S3.
+
+**Request Body**
+
+```json
+{
+  "workspace_dir": "/app/code",
+  "key": "workspaces/my-project.tar.gz",
+  "compression_level": 6
+}
+```
+
+---
+
+### `POST /api/v1/s3/download_workspace`
+
+Downloads a `.tar.gz` archive from S3 and extracts it to a local directory.
+
+**Form Fields**: `key` (S3 object key), `extract_dir` (local path to extract into)
+
+---
+
+### `POST /api/v1/s3/upload_logs`
+
+Uploads session logs to S3.
+
+**Request Body**: `session_id`, `s3_key` (destination key)
+
+---
+
+### `GET /api/v1/s3/list_session_logs`
+
+Lists session log objects stored in S3 under the logs prefix.
+
+---
+
+### `GET /api/v1/s3/download_session_log`
+
+Downloads a specific session log file from S3.
+
+**Query Parameters**: `session_id`, `s3_key`
+
+---
+
+## Snapshots
+
+Snapshot endpoints create, restore, list, delete, and schedule periodic backups of the VM workspace. Snapshots are stored in S3 or Lighthouse. The engine can be standard (tar+gzip) or Restic.
+
+### `POST /api/v1/snapshots/create`
+
+Creates a snapshot of the VM workspace. If periodic snapshots are already running, an incremental snapshot is taken automatically.
+
+**Request Body**
+
+```json
+{
+  "backup_id": "my-backup",
+  "workspace_dir": "/app/code",
+  "snapshot_name": "my-snapshot",
+  "include_process": false,
+  "include_workspace": true,
+  "compression_level": 6,
+  "use_restic": false
+}
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `backup_id` | string | — | Required. Groups snapshots under a logical backup |
+| `workspace_dir` | string | `cwd` | Directory to snapshot |
+| `snapshot_name` | string | auto | Human-readable name |
+| `include_process` | bool | false | Include process checkpoint (experimental) |
+| `include_workspace` | bool | false | Include workspace files |
+| `compression_level` | int | 6 | 1–9 gzip compression |
+| `use_restic` | bool | false | Use Restic instead of tar+gzip |
+
+**Response**
+
+```json
+{
+  "message": "Snapshot created successfully",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "snapshot_name": "mannual_snapshot-my-backup-a1b2c3d4e5f6",
+  "workspace_dir": "/app/code",
+  "include_process": false,
+  "include_workspace": true,
+  "size": 52428800
+}
+```
+
+---
+
+### `POST /api/v1/snapshots/restore`
+
+Restores a snapshot from S3 or Lighthouse to a target directory.
+
+**Request Body**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "backup_id": "my-backup",
+  "s3_key": "snapshots/my-backup/a1b2c3d4.tar.gz",
+  "target_dir": "/app/code",
+  "use_restic": false
+}
+```
+
+Provide either `s3_key` directly, or `snapshot_id` + `backup_id` (the key will be constructed). For Restic, `snapshot_id` is the Restic snapshot hash.
+
+**Response**
+
+```json
+{
+  "message": "Snapshot restored successfully",
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "s3_key": "snapshots/my-backup/a1b2c3d4.tar.gz",
+  "target_dir": "/app/code",
+  "use_restic": false
+}
+```
+
+---
+
+### `GET /api/v1/snapshots/list`
+
+Lists available snapshots from the configured storage backend.
+
+**Query Parameters**
+
+| Parameter | Description |
+|-----------|-------------|
+| `storage_type` | `s3` or `lighthouse` |
+| `backup_id` | Filter to a specific backup group |
+| `use_restic` | `true` to list Restic snapshots (requires `backup_id`) |
+
+**Response**
+
+```json
+{
+  "storage_type": "s3",
+  "snapshots": [
+    {
+      "key": "snapshots/my-backup/a1b2c3d4.tar.gz",
+      "size": 52428800,
+      "last_modified": "2026-04-24T10:00:00Z",
+      "etag": "\"abc123\""
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+### `POST /api/v1/snapshots/delete`
+
+Deletes a snapshot from storage.
+
+**Request Body**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "backup_id": "my-backup",
+  "snapshot_key": "snapshots/my-backup/a1b2c3d4.tar.gz",
+  "storage_type": "s3",
+  "use_restic": false
+}
+```
+
+Provide either `snapshot_key` directly, or `snapshot_id` + `backup_id`.
+
+---
+
+### `POST /api/v1/snapshots/start_snapshot`
+
+Starts a periodic snapshot schedule. Snapshots are taken at a fixed interval and uploaded to the configured storage backend. Subsequent snapshots in the schedule are incremental.
+
+**Request Body**
+
+```json
+{
+  "workspace_dir": "/app/code",
+  "interval_minutes": 30,
+  "backup_id": "my-backup",
+  "include_workspace": true,
+  "include_process": false,
+  "webhook_url": "https://my-webhook.example.com/notify",
+  "use_restic": false,
+  "tags": ["production"],
+  "excludes": ["*.pyc", "__pycache__"]
+}
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `workspace_dir` | string | — | Required. Directory to snapshot |
+| `interval_minutes` | int | — | Required. How often to take a snapshot |
+| `backup_id` | string | — | Required. Backup group identifier |
+| `include_workspace` | bool | false | Include workspace files |
+| `include_process` | bool | false | Include process checkpoint |
+| `webhook_url` | string | — | POST notification URL after each snapshot |
+| `use_restic` | bool | false | Use Restic engine |
+| `tags` | string[] | — | Restic tags (Restic only) |
+| `excludes` | string[] | — | Path patterns to exclude (Restic only) |
+
+---
+
+### `POST /api/v1/snapshots/stop_snapshot`
+
+Stops a running periodic snapshot schedule.
+
+**Request Body**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0"
+}
+```
+
+---
+
+### `GET /api/v1/snapshots/status`
+
+Returns whether a periodic snapshot schedule is running for a given snapshot ID.
+
+**Request Body**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0"
+}
+```
+
+**Response**
+
+```json
+{
+  "snapshot_id": "a1b2c3d4e5f6a7b8c9d0",
+  "is_running": true,
+  "use_restic": false
+}
+```
+
+---
+
+## Metrics
+
+Unified GPU, CPU, and memory monitoring. GPU monitoring uses DCGM (NVIDIA) or equivalent vendor tooling. CPU monitoring polls kernel-level stats.
+
+### `GET /api/v1/metrics`
+
+Returns current GPU and/or CPU metrics.
+
+**Query Parameters**
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `include_gpu` | `true` | Include GPU metrics (if available) |
+| `include_cpu` | `true` | Include CPU metrics |
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "gpu": {
+    "device_count": 1,
+    "devices": [
+      {
+        "device_id": 0,
+        "name": "NVIDIA A100",
+        "utilization_percent": 74.2,
+        "memory_used_mb": 40960,
+        "memory_total_mb": 81920,
+        "temperature_c": 62
+      }
+    ]
+  },
+  "cpu": {
+    "utilization_percent": 12.5,
+    "total_cores": 64,
+    "memory_used_mb": 32768,
+    "memory_total_mb": 131072
+  }
+}
+```
+
+---
+
+### `GET /api/v1/metrics/health`
+
+Returns health status for all monitoring subsystems (GPU and CPU).
+
+**Response**
+
+```json
+{
+  "status": "healthy",
+  "gpu": {
+    "available": true,
+    "vendor": "NVIDIA",
+    "devices": 1
+  },
+  "cpu": {
+    "available": true,
+    "cores": 64
+  }
+}
+```
+
+---
+
+### `GET /api/v1/metrics/status`
+
+Returns comprehensive monitoring status including webhook configuration, log saving state, and device counts.
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "gpu": {
+    "available": true,
+    "vendor": "NVIDIA",
+    "device_count": 1,
+    "monitoring": true
+  },
+  "cpu": {
+    "monitoring": true,
+    "cores": 64
+  },
+  "logging": {
+    "enabled": true,
+    "retention_minutes": 60,
+    "log_count": 3600,
+    "unique_id": "my-session",
+    "save_all_logs": false
+  },
+  "webhooks": {
+    "count": 1,
+    "active": [
+      { "unique_id": "my-session", "url": "https://webhook.example.com" }
+    ]
+  },
+  "last_updated": "2026-04-24T12:00:00Z"
+}
+```
+
+---
+
+### `GET /api/v1/metrics/gpu/device/{deviceId}`
+
+Returns metrics for a specific GPU device by its numeric ID.
+
+**Path Parameter**: `deviceId` — zero-based device index
+
+**Response**
+
+```json
+{
+  "status": "success",
+  "data": {
+    "device_id": 0,
+    "utilization_percent": 74.2,
+    "memory_used_mb": 40960,
+    "memory_total_mb": 81920,
+    "temperature_c": 62,
+    "power_usage_w": 320
+  }
+}
+```
+
+---
+
+### `POST /api/v1/metrics/monitoring/start`
+
+Starts GPU and/or CPU monitoring. Optionally configures webhooks and S3 log saving.
+
+**Request Body**
+
+```json
+{
+  "monitor_gpu": true,
+  "monitor_cpu": true,
+  "webhook_url": "https://webhook.example.com/metrics",
+  "unique_id": "my-session",
+  "save_logs": true,
+  "retention_minutes": 60,
+  "save_all_logs": false,
+  "log_upload_interval_seconds": 120
+}
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `monitor_gpu` | bool | false | Start GPU monitoring |
+| `monitor_cpu` | bool | false | Start CPU monitoring |
+| `webhook_url` | string | — | Webhook URL for metric events (requires `unique_id`) |
+| `unique_id` | string | — | Identifier for webhook and log grouping |
+| `save_logs` | bool | false | Enable S3 log saving |
+| `retention_minutes` | int | 1 | In-memory log retention window |
+| `save_all_logs` | bool | false | Keep all logs in memory (ignores retention window) |
+| `log_upload_interval_seconds` | int | 120 | How often to upload logs to S3 (minimum 5) |
+
+---
+
+### `POST /api/v1/metrics/monitoring/stop`
+
+Stops GPU and/or CPU monitoring.
+
+**Request Body**
+
+```json
+{
+  "stop_gpu": true,
+  "stop_cpu": true
+}
+```
+
+---
+
+### `GET /api/v1/metrics/logs/download`
+
+Downloads saved metric logs as a file.
+
+---
+
+### `GET /api/v1/metrics/logs/stream`
+
+Streams metric logs as Server-Sent Events.
+
+
